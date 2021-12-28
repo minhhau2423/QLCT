@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Start Bootstrap</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link " href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav><div class="bg-"></div>
+    <!-- end nav -->
+
+
+    <div class="container profile-container">
+        <div class="row">
+            <img  src="images/bia.jpg" alt="" class="anhbia">
+            <div class="avt-group m-auto">
+                <img src="images/lisa.jpg" alt="avatar" class="avatar">
+                <div onclick="" class="edit-avt d-flex justify-content-center align-items-center">
+                    <input type="file" name="" id="avt" hidden>
+                    <label class="m-auto" for="avt"><i class="fas fa-camera"></i></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-5">
+            <div class="col-sm-12 col-md-12 col-lg-7">
+                <div class="card card-pf p-2 mb-4">
+                    <h5 class="card-info-label">Personal info</h5>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> FULL NAME </label>
+                        <div class="info-content col-9">Lisa Nguyen</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> GENDER </label>
+                        <div class="info-content col-9">Female</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> BIRTHDAY </label>
+                        <div class="info-content col-9">27/03/1997</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> IDENTITY CARD </label>
+                        <div class="info-content col-9">123456789</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> DEPARTMENT</label>
+                        <div class="info-content col-9">Business</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> POSITION </label>
+                        <div class="info-content col-9">Staff</div>
+                    </div>
+                </div>
+                <div class="card card-pf p-2 mb-4">
+                    <h5 class="card-info-label">Contact info</h5>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> PHONE </label>
+                        <div class="info-content col-9">0394294439</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> EMAIL </label>
+                        <div class="info-content col-9">lisa.blackpin@gmail.com</div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> ADDRESS </label>
+                        <div class="info-content col-9">District 7, Ho Chi Minh City</div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-edit-profile" data-toggle="modal" data-target="#myModal"> Edit profile</button>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-5">
+                <div class="card card-pf p-3">
+                    <div class="d-flex ">
+                        <label>New</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <label>In progress</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <label>Cancel</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <label>Waiting</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <label>Rejected</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <label>completed</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title login-label">Edit profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!--  -->
+                            <form id=""  class="" novalidate>
+                               <div class="">
+                                    <div class="form-group col-12" > 
+                                        <label >Full name</label>
+                                        <input type="text" class="form-control " name="fullname" placeholder="Full name" required>
+                                      
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label>Gender</label>
+                                        <div>
+                                            <input id="male" type="radio" name="gender">
+                                            <label for="male">Male</label>
+                                            <input id="female" type="radio" name="gender">
+                                            <label for="female">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Birthday</label>
+                                        <input type="date" class="form-control " name="birthday" placeholder="Birthday" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Identity card</label>
+                                        <input type="number" class="form-control " name="identityCard" placeholder="Identity card" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Phone</label>
+                                        <input type="number" class="form-control " name="phone" placeholder="Phone number" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Email</label>
+                                        <input type="email" class="form-control " name="email" placeholder="Email" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Address</label>
+                                        <input type="text" class="form-control " name="address" placeholder="Address" required>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                               </div>
+                            </form>
+                        <!--  -->
+                    </div>
+                    
+                </div>
+            
+            </div>
+        </div>
+        <!--end modal -->
+
+    </div>
+
+
+
+    <!-- footer -->
+    <footer class="page-footer font-small bg-dark p-4">
+        <div class="text-center p-3 text-white" >
+            Copyright ©
+            <a class="text-white" href="#">Your Webside</a>
+            2017
+        </div>
+    </footer>
+
+
+    <script src="main.js"></script>
+</body>
+</html>

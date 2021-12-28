@@ -1,0 +1,129 @@
+
+/* Login */
+.background{
+    width: 100%;
+    height: 100%;
+    clip-path: circle(43.3% at 0 100%);
+    background-image: linear-gradient(blueviolet,purple, pink);
+    position: absolute;
+    z-index: -1;
+}
+.background2{
+    width: 100%;
+    height: 100%;
+    clip-path: circle(43.3% at 100% 0);
+    background-image: linear-gradient(blueviolet,purple, pink);
+    position: absolute;
+    z-index: -1;
+}
+.login-card{
+    border-radius: 15px;
+    box-shadow: 5px 8px 8px 0 rgb(107, 107, 107);
+}
+.user{
+    width: 100px;
+    height: 100px;
+}
+@media screen and (max-width:800px){
+    .img{
+        display: none; 
+    }
+}
+.forgot{
+    float: right;
+    padding-bottom: 20px;}
+
+.login-label{
+    color: purple;
+    font-weight: bold;
+}
+.icon-color{
+    color: purple;
+}
+.btn-login{
+    font-weight: bolder;
+    font-size: 20px;
+    box-shadow: 2px 2px 2px 0 rgb(107, 107, 107);
+    background-image: linear-gradient(to right,pink,purple,blueviolet,purple, pink);
+    color: white;
+}
+
+.btn-login:hover{
+    box-shadow: 3px 5px 5px 0 rgb(107, 107, 107);
+    font-size: 21px;
+    color: white;
+}
+.showpass{
+    cursor: pointer;
+}
+
+input::-webkit-input-placeholder {
+    font-style: italic;
+}
+input:focus::placeholder {
+    color:white;
+}
+/*  */
+
+
+/* Profile */
+
+.avatar{
+    position: relative;
+    margin-top: -100px;
+    vertical-align: middle;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: solid 4px white;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.anhbia{
+    margin: auto;
+    width: 90%;
+    height: 200px;
+    border-radius:15px;
+}
+.edit-avt{
+    cursor: pointer;
+    position: relative;
+    margin-top:-50px;
+    margin-left: 160px;
+    background-color:gainsboro;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: solid 2px white;
+}
+.progress{
+    margin: 10px;
+    width: 75%;
+    margin: auto;
+    margin-right: 0;
+}
+.info-content{
+    font-weight: bold;
+}
+.info-label{
+    color: gray;
+    font-size: 13px;
+}
+.row-info{
+    border: solid 1px gainsboro;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.card-info-label{
+    margin-bottom: 20px;
+    color: purple;
+}
+.btn-edit-profile{
+    background-color: purple;
+    color: white;
+    margin-bottom: 10px;
+}
+.card-pf{
+    box-shadow: 2px 2px 2px 0 rgb(212, 212, 212);
+}
