@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task</title>
+    <title>Chi tiết task</title>
         <!-- cdn bs4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="style3.css?v=1">
@@ -82,7 +82,7 @@
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="/truongphong.php">Quản lý công việc</a>
+                    <a href="./truongphong.php">Quản lý công việc</a>
                 </li>
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
@@ -91,7 +91,7 @@
                             <a href="#">Duyệt nghỉ phép</a>
                         </li>
                         <li>
-                            <a href="#">Xin nghỉ phép</a>
+                            <a href="./nghiphep.php">Xin nghỉ phép</a>
                         </li>
                     </ul>
                 </li>
@@ -203,7 +203,7 @@
                 if($row['filedelivered']!=null){
                     $file = explode(',',$row['filedelivered']);
                     foreach($file as $key=>$val){
-                       echo "<div class='btn btn-outline-primary mr-2' onclick='download(\"".$val."\")'><i class='fas fa-paperclip'></i> ".$val." </div>"; 
+                       echo "<div class='btn btn-outline-primary mr-2'style='max-width:100%;' onclick='download(\"".$val."\")'><i class='fas fa-paperclip'></i> ".$val." </div>"; 
                     }   
                 }
                 echo "<form method='POST' action=''>";
@@ -214,8 +214,8 @@
                 }
                 if($row['status']=="waiting"){
                     echo "<div style='height: 50px;'>
-                            <button name='reject' type='button' class='btn btn-danger ml-2' style='float: right;' data-toggle='modal' data-target='#lamlai-modal'>Làm lại</button>
-                            <button name='agree' type='button' class='btn btn-success' style='float: right;' data-toggle='modal' data-target='#dongy-modal'>Đồg ý</button>
+                            <button name='reject' type='button' class='btn btn-danger mt-1 ml-2' style='float: right;' data-toggle='modal' data-target='#lamlai-modal'>Làm lại</button>
+                            <button name='agree' type='button' class='btn btn-success mt-1' style='float: right;' data-toggle='modal' data-target='#dongy-modal'>Đồg ý</button>
                           </div>";
                 }
                 echo "</form>";
@@ -234,7 +234,7 @@
                 echo "</div>";
              }
        
-            $sql = "SELECT * FROM history WHERE idtask =".$idtask." ORDER BY idhis DESC";
+            $sql = "SELECT * FROM history WHERE idtask =$idtask ORDER BY idhis DESC";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                
@@ -258,7 +258,7 @@
                     if($row['file']!=null){
                         $file = explode(',',$row['file']);
                         foreach($file as $key=>$val){
-                            echo "<div class='btn btn-outline-primary mr-2' onclick='download(\"".$val."\")'><i class='fas fa-paperclip'></i> ".$val." </div>"; 
+                            echo "<div class='btn btn-outline-primary mr-2' style='max-width:100%;' onclick='download(\"".$val."\")'><i class='fas fa-paperclip'></i> ".$val." </div>"; 
                         }   
                     }
                     echo       " </div>
@@ -273,7 +273,7 @@
     <?php
     if(isset($_POST['submit-reject'])){
         $mess = "";
-        $Dir = "filetask/";
+        $Dir = "files/";
         $file = $_FILES['file']['name'];
         $newName=array();
         $fileName="";

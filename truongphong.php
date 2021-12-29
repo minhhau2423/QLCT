@@ -93,7 +93,7 @@
                             <a href="#">Duyệt nghỉ phép</a>
                         </li>
                         <li>
-                            <a href="#">Xin nghỉ phép</a>
+                            <a href="./nghiphep.php">Xin nghỉ phép</a>
                         </li>
                     </ul>
                 </li>
@@ -172,7 +172,7 @@
     if(isset($_POST['submit'])){
 
         $mess = "";
-        $Dir = "filetask/";
+        $Dir = "files/";
         $file = $_FILES['filedelivered']['name'];
         $newName=array();
         $fileName="";

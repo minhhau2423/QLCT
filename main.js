@@ -123,5 +123,5 @@ function updateList() {
 
 //download file
 function download(name){
-    window.location="download.php?path=filetask/"+name;
+    window.location="download.php?path=files/"+name;
  }
