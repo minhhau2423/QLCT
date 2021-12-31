@@ -7,7 +7,7 @@
 
     require_once('database.php');
     $conn=open_database();
-    $iduser='1';//
+    $iduser='3';//
 ?>
 
 <!DOCTYPE html>
@@ -253,8 +253,7 @@
             }else{
                 echo("<meta http-equiv='refresh' content='0'>");
             }
-        }
-        
+        }     
     }
     ?>
 
