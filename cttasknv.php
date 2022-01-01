@@ -200,7 +200,7 @@
                             <button name='inprogress' type='submit' class='btn btn-success' style='float: right;'>Bắt đầu</button>
                           </div>";
                 }
-                if($row['status']=="inprogress" || $row['status']=="reject"){
+                if($row['status']=="inprogress" || $row['status']=="rejected"){
                     echo "<div style='height: 50px;'>
                             <button name='' type='button' class='btn btn-danger mt-1 ml-2' style='float: right;' data-toggle='modal' data-target='#lamlai-modal'>Nộp</button>
                           </div>";
@@ -290,7 +290,7 @@
     ?>
 
     <!-- Modal submit -->
-    <div class="modal fade" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="lamlai-modal" class="modal fade" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
