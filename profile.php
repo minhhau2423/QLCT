@@ -12,6 +12,8 @@
         $uid = $row['id'];
         $uname = $row['name'];
         $ugender = $row['gender'];
+        $upassword = $row['password'];
+
         if ($ugender == 0){
             $ugenderStr = 'Nữ';
         }else{
@@ -36,37 +38,79 @@
     }else {
         echo 'buggggggg22222';
     }
+
+    //lay thong ke task cua user
+    $sqltask = "SELECT * FROM task WHERE idnv =".$iduser."";
+    $resultTask = $conn->query($sqltask);
+
+    $numNew = 0;
+    $numInprogress = 0;
+    $numCancel= 0;
+    $numWaiting= 0;
+    $numRejected= 0;
+    $numCompleted= 0;
+    $numTotal = 0;
+
+    if ($resultTask->num_rows > 0) {
+        while($row = $resultTask->fetch_assoc()) {
+            if($row['status']=="completed"){
+                $numCompleted +=1;
+            }
+            if($row['status']=="new"){
+                $numNew +=1;
+            }
+            if($row['status']=="rejected"){
+               $numRejected +=1;
+            }
+            if($row['status']=="waiting"){
+                $numWaiting +=1;
+            }
+            if($row['status']=="inprogress"){
+                $numInprogress +=1;
+            }
+            if($row['status']=="canceled"){
+                $numCancel +=1;
+            }
+            $numTotal +=1;
+        }
+    }
+
+    if ($result2->num_rows > 0) {
+        $row = $result2->fetch_assoc();
+        $unamepb = $row['namepb'];
+    }else {
+        echo 'buggggggg22222';
+    }
 ?>
 
     <?php
-    if(isset($_POST['updateAVatar'])){
-        echo 'yyyyyy';
-        
-        $Dir = "files/";
+    if(isset($_POST['updateProfile2'])){
+        $Dir = "uploads/";
         $file = $_FILES['file']['name'];
-        $newName=array();
+
+        $newName="";
         $fileName="";
-        if($file[0]!=null){
-            foreach($file as $key =>$val){
-                $salt = time();
-                array_push($newName, $salt."_".$val);
-                $path = $Dir . $salt."_".$val;
-                move_uploaded_file($_FILES['file']['tmp_name'][$key],$path);
-            }
-            $fileName = implode("," ,$newName);
+        if($file!=null){
+            $salt = time();
+            $newName=$salt."_".$file;
+            $path = $Dir.$salt."_".$file;
+            move_uploaded_file($_FILES['file']['tmp_name'],$path);
         }
 
-        $sql = "UPADTE user SET avatar='$fileName' WHERE id='$iduser'";
+        $sql = "UPDATE user SET avatar='$newName' WHERE id='$iduser'";
         if ($conn->query($sql) === FALSE) {
             echo "Error updating record: " . $conn->error;
         }else{
             if ($conn->query($sql) === TRUE) {
+                if($uavatar!=null){
+                    unlink("uploads/".$uavatar);
+                }
                 echo("<meta http-equiv='refresh' content='0'>");
             } else {
                     echo "Error updating record: " . $conn->error;
             }
         }   
-    }
+    } 
     ?>
 
 <!DOCTYPE html>
@@ -81,7 +125,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1">
 </head>
 <body> 
     <!-- nav bar -->
@@ -116,10 +160,16 @@
         <div class="row">
             <img  src="images/bia.jpg" alt="" class="anhbia">
             <div class="avt-group m-auto">
-                <img src="images/lisa.jpg" id="my-avt" alt="avatar" class="avatar">
+                <?php 
+                    if ($uavatar==null){
+                        echo '<img src="https://secure.gravatar.com/avatar/964663d0d333d8b679708d98a01a45c9/?s=48&d=https://images.binaryfortress.com/General/UnknownUser1024.png" id="my-avt" class="avatar">';
+                    } else{
+                        echo '<img src="uploads/'.$uavatar.'" id="my-avt" class="avatar">';
+                    }
+                ?>
                 <div onclick="" class="edit-avt d-flex justify-content-center align-items-center">
                     <input type="file" name="" id="input-avt" hidden>
-                    <button data-toggle="modal" data-target="#myModalAvatar"><i class="fas fa-camera"></i></label></button>
+                    <button class="btn-setavt" data-toggle="modal" data-target="#myModalAvatar"><i class="fas fa-camera"></i></label></button>
                 </div>
             </div>
         </div>
@@ -167,6 +217,9 @@
                         <label class="info-label col-3"> ĐỊA CHỈ </label>
                         <div class="info-content col-9"><?=$uaddress?></div>
                     </div>
+                    <div>
+                        <a style="float:right;" href="#" data-toggle="modal" data-target="#myModalResetPassword">Đổi mật khẩu</a>
+                    </div>
                 </div>
                 <div>
                     <button class="btn btn-edit-profile" data-toggle="modal" data-target="#myModal"> SỬA</button>
@@ -175,39 +228,48 @@
             <div class="col-sm-12 col-md-12 col-lg-5">
                 <div class="card card-pf p-3">
                     <div class="d-flex ">
+                        <label><b>Tất cả: </b><?=$numTotal?></label>
+                    </div>
+                    <div class="d-flex ">
                         <label>New</label>
                         <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-primary" role="progressbar" 
+                            style="width: <?=$numNew/$numTotal*100?>%" aria-valuenow="<?=$numNew/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="d-flex">
                         <label>In progress</label>
                         <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-info" role="progressbar" 
+                            style="width: <?=$numInprogress/$numTotal*100?>%" aria-valuenow="<?=$numInprogress/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="d-flex">
                         <label>Cancel</label>
                         <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" 
+                            style="width: <?=$numCancel/$numTotal*100?>%" aria-valuenow="<?=$numCancel/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="d-flex">
                         <label>Waiting</label>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" 
+                            style="width: <?=$numWaiting/$numTotal*100?>%" aria-valuenow="<?=$numWaiting/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="d-flex">
                         <label>Rejected</label>
                         <div class="progress">
-                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-secondary" role="progressbar" 
+                            style="width: <?=$numRejected/$numTotal*100?>%" aria-valuenow="<?=$numRejected/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="d-flex">
                         <label>completed</label>
                         <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" 
+                            style="width: <?=$numCompleted/$numTotal*100?>%" aria-valuenow="<?=$numCompleted/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -310,8 +372,70 @@
         </div>
         <!--end modal -->
 
-        <!-- Modal Avatar -->
+            <!-- Modal Avatar -->
         <div class="modal fade" id="myModalAvatar" role="dialog">
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title login-label">Sửa</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--  -->
+                                <form method="POST" novalidate enctype="multipart/form-data">
+                                <div class="">
+                                    <div class="form-group col-12">
+                                            <label for="" >Thêm ảnh đại diện</label>
+                                            <input type="file" class=" custom-file-input" id="filepost" multiple hidden name="file" onchange="updateList()">
+                                            <label for="filepost" class="btn btn-primary btn-sm form-control" >
+                                                <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
+                                            </label>
+                                            <div id="fileList"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" name="updateProfile2" class="btn btn-primary">Lưu</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                </div>
+                                </form>
+                            <!--  -->
+                        </div>
+                        
+                    </div>
+                
+                </div>
+            </div>
+        </div>                                        
+
+    <?php
+            if(isset($_POST['resetPassword'])){
+                $soldpass = $_POST['oldpass'];
+                $snewpass = $_POST['newpass'];
+                $snewpass2 = $_POST['newpass2'];
+                
+                if (isset($soldpass) && isset($snewpass) && isset($snewpass2)){
+                    if(password_verify($soldpass, $upassword) && $snewpass==$snewpass2 ) {
+                        $hashed_password = password_hash($snewpass, PASSWORD_DEFAULT);
+                        $sql = "UPDATE user SET password='$hashed_password'
+                            WHERE id='$iduser'";
+                    if ($conn->query($sql) === FALSE) {
+                        echo "Error updating record: " . $conn->error;
+                    }else{
+                        if ($conn->query($sql) === TRUE) {
+                            //echo("<meta http-equiv='refresh' content='0'>");
+                            echo 'doi mat khau thanh congggggg!';
+                        } else {
+                            echo "Error updating record: " . $conn->error;
+                        }
+                    }
+                } else{
+                    echo 'doi mat khau that baiiiiiiiiiiiiiiiiiiiiiii';
+                }
+            }
+        }
+        ?>
+    <!--Modal Resetpassword-->
+    <div class="modal fade" id="myModalResetPassword" role="dialog">
         <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -320,18 +444,22 @@
                     </div>
                     <div class="modal-body">
                         <!--  -->
-                            <form method="POST" novalidate>
+                            <form method="POST" novalidate enctype="multipart/form-data">
                                <div class="">
-                                <div class="form-group col-12">
-                                        <label for="" >Thêm ảnh đại diện</label>
-                                        <input type="file" class=" custom-file-input" id="filepost" multiple hidden name="file[]" onchange="updateList()">
-                                        <label for="filepost" class="btn btn-primary btn-sm form-control" >
-                                            <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
-                                        </label>
-                                        <div id="fileList"></div>
+                                    <div class="form-group col-12" > 
+                                        <label >Nhập mật khẩu cũ</label>
+                                        <input type="password" class="form-control " name="oldpass" placeholder="" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Nhập mật khẩu mới</label>
+                                        <input type="password" class="form-control " name="newpass" placeholder="" required>
+                                    </div>
+                                    <div class="form-group col-12" > 
+                                        <label >Nhập lại mật khẩu mới</label>
+                                        <input type="password" class="form-control " name="newpass2" placeholder="" required>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" name="updateAvatar" class="btn btn-primary">Lưu</button>
+                                        <button type="submit" name="resetPassword" class="btn btn-primary">Đổi mật khẩu</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                                     </div>
                                </div>
@@ -343,7 +471,8 @@
             
             </div>
         </div>
-    </div>
+    </div>          
+    
     <!-- footer -->
     <footer class="page-footer font-small bg-dark p-4">
         <div class="text-center p-3 text-white" >

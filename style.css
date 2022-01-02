@@ -67,6 +67,11 @@ input:focus::placeholder {
 
 
 /* Profile */
+.btn-setavt{
+    border: 1px solid white;
+    border-radius: 50%;
+    outline: none;
+}
 
 .avatar{
     position: relative;
@@ -78,6 +83,7 @@ input:focus::placeholder {
     border: solid 4px white;
     background-position: center center;
     background-repeat: no-repeat;
+    object-fit: cover;
 }
 
 .anhbia{
