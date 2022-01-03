@@ -1,13 +1,12 @@
 <?php
-/*  session_start();
-    if (!isset($_SESSION['user'])) {
-        header('Location: login.php');
+    session_start();
+    if (!isset($_SESSION['username'])){
+        header('Location: index.php');
         exit();
-    } */
-
+    } 
     require_once('database.php');
     $conn = open_database();
-    $iduser = '1'; //
+    $iduser =  $_SESSION['id'];
     $num = 0;
     $sql = "SELECT * FROM user WHERE id=$iduser";
     $result = $conn->query($sql);
@@ -57,7 +56,7 @@
                     <span>Menu</span>
                 </button>
                 <div class="hsearch_container">
-                    <input type="text" placeholder="Tìm kiếm..." id="search">
+                    <input type="text" placeholder="Tìm kiếm..." id="search_dayoff">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
 
@@ -71,7 +70,7 @@
                             <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="32" alt="Avatar" loading="lazy" />
                         </li>
                         <li class="nav-item">
-                            <button>
+                            <button  onclick="location.href='logout.php'">
                                 <i class="fas fa-sign-out-alt"></i>
                             </button>
                         </li>
@@ -101,11 +100,11 @@
                             if($num==15){
                         ?>
                         <li>
-                            <a href="#">Duyệt nghỉ phép</a>
+                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
                         </li>
                         <?php } ?>
                         <li>
-                            <a href="#">Xin nghỉ phép</a>
+                            <a href="./nghiphep.php">Xin nghỉ phép</a>
                         </li>
                     </ul>
                 </li>
@@ -132,7 +131,7 @@
                     if ($tmp['daterep'] != null)
                         $last = $tmp['daterep'];
                 }
-                if (($result->num_rows == 0) && (strtotime(date("Y-m-d")) - strtotime($last)) / 86400 >= 7) {
+                if (($result->num_rows == 0) && (strtotime(date("Y-m-d")) - strtotime($last)) / 86400 >= 7 && (($num - $numoff)>0)){
 
                 ?>
                     <div class="hadd-task" data-toggle="modal" data-target="#yeucau-modal">
@@ -185,7 +184,7 @@
                                                 $file = explode(',', $row['file']);
                                                 foreach ($file as $key => $val) {
                                             ?>
-                                                    <div class="btn btn-outline-primary" onclick='download("<?php echo $val; ?>")'><?php echo $val; ?></div>
+                                                    <div class="btn btn-outline-primary"  onclick='download("<?php echo $val; ?>")'><i class="fas fa-paperclip"></i></div>
                                             <?php
                                                 }
                                             }
