@@ -1,8 +1,9 @@
 <?php
+    session_start();
     require_once('database.php');
     $conn=open_database();
     //$iduser=$_GET['id'];
-    $iduser = '3';
+    $iduser = $_SESSION['id'];
 
     //lay thong tin ca nhan cua user
     $sql = "SELECT * FROM user WHERE id =".$iduser."";
@@ -74,13 +75,6 @@
             $numTotal +=1;
         }
     }
-
-    if ($result2->num_rows > 0) {
-        $row = $result2->fetch_assoc();
-        $unamepb = $row['namepb'];
-    }else {
-        echo 'buggggggg22222';
-    }
 ?>
 
     <?php
@@ -122,38 +116,110 @@
     <title>Profile</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="hstyle.css?v=1">
     <link rel="stylesheet" href="style.css?v=1">
+    <link rel="stylesheet" href="style3.css?v=1">
+
 </head>
 <body> 
-    <!-- nav bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link " href="#">Contact</a>
-                    </li>
-                </ul>
+    <!-- header -->
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light h2">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn dashboard">
+                    <i class="fas fa-align-left"></i>
+                    <span>Menu</span>
+                </button>
+                <div class="hsearch_container">
+                    <input type="text" placeholder="Tìm kiếm..." id="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                        <img style="object-fit:cover;"
+                            <?php
+                                $sql = "SELECT * FROM user WHERE id =$iduser";
+                                $tmp=$conn->query($sql);
+                                if ($tmp->num_rows > 0) {
+                                    $us = $tmp->fetch_assoc();
+                                }
+                                if($us['avatar']!=null){
+                                    $avt = $us['avatar'];
+                                    echo "src='uploads/$avt'";
+                                }else{
+                                    $tmp='avt_tmp.jpg';
+                                    echo "src='images/$tmp'";
+                                }
+                            ?>
+                            class="rounded-circle" height="32" width="32"
+                            alt="Avatar"
+                            loading="lazy" />
+                        </li>
+                        <li class="nav-item">
+                            <button onclick="location.href='logout.php'">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav><div class="bg-"></div>
-    <!-- end nav -->
+        </nav>
+
+        <!-- slidebar -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+
+            <div class="sidebar-header">
+                <img id="logonmenu" src="logo.png" alt="" srcset="">
+            </div>
+
+            <ul class="list-unstyled components">
+                <?php
+                    if($uposition=='Trường phòng'){
+                    ?>
+                <li>
+                    <a href="./truongphong.php">Quản lý công việc</a>
+                </li>
+                <?php } ?>
+
+                <?php
+                    if($uposition=='Nhân viên'){
+                    ?>
+                <li>
+                    <a href="./nhanvien.php">Quản lý công việc</a>
+                </li>
+                <?php } ?>
+
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <?php
+                            if($uposition=='Trường phòng'){
+                        ?>
+                        <li>
+                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
+                        </li>
+                        <?php } ?>
+                        <li>
+                            <a href="./nghiphep.php">Xin nghỉ phép</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#">Thông tin cá nhân</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
 
     <div class="container profile-container">
@@ -230,48 +296,72 @@
                     <div class="d-flex ">
                         <label><b>Tất cả: </b><?=$numTotal?></label>
                     </div>
-                    <div class="d-flex ">
-                        <label>New</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" 
-                            style="width: <?=$numNew/$numTotal*100?>%" aria-valuenow="<?=$numNew/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <label>In progress</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" 
-                            style="width: <?=$numInprogress/$numTotal*100?>%" aria-valuenow="<?=$numInprogress/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <label>Cancel</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" 
-                            style="width: <?=$numCancel/$numTotal*100?>%" aria-valuenow="<?=$numCancel/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <label>Waiting</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" 
-                            style="width: <?=$numWaiting/$numTotal*100?>%" aria-valuenow="<?=$numWaiting/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <label>Rejected</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-secondary" role="progressbar" 
-                            style="width: <?=$numRejected/$numTotal*100?>%" aria-valuenow="<?=$numRejected/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <label>completed</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" 
-                            style="width: <?=$numCompleted/$numTotal*100?>%" aria-valuenow="<?=$numCompleted/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
+                    <?php 
+                        if ($numNew>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>In progress</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" 
+                                    style="width: <?=$numInprogress/$numTotal*100?>%" aria-valuenow="<?=$numInprogress/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
+
+                    <?php 
+                        if ($numCancel>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>Cancel</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-secondary" role="progressbar" 
+                                    style="width: <?=$numCancel/$numTotal*100?>%" aria-valuenow="<?=$numCancel/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($numCancel>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>Waiting</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" 
+                                    style="width: <?=$numWaiting/$numTotal*100?>%" aria-valuenow="<?=$numWaiting/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($numRejected>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>Rejected</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" 
+                                    style="width: <?=$numRejected/$numTotal*100?>%" aria-valuenow="<?=$numRejected/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($numCompleted>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>Completed</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                    style="width: <?=$numCompleted/$numTotal*100?>%" aria-valuenow="<?=$numCompleted/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -444,19 +534,22 @@
                     </div>
                     <div class="modal-body">
                         <!--  -->
-                            <form method="POST" novalidate enctype="multipart/form-data">
+                            <form id="form-add-task" method="POST" novalidate enctype="multipart/form-data" class="need-validated">
                                <div class="">
                                     <div class="form-group col-12" > 
                                         <label >Nhập mật khẩu cũ</label>
                                         <input type="password" class="form-control " name="oldpass" placeholder="" required>
+                                        <div class="invalid-feedback">Không được để trống</div>
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Nhập mật khẩu mới</label>
                                         <input type="password" class="form-control " name="newpass" placeholder="" required>
+                                        <div class="invalid-feedback">Không được để trống</div>
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Nhập lại mật khẩu mới</label>
                                         <input type="password" class="form-control " name="newpass2" placeholder="" required>
+                                        <div class="invalid-feedback">Không được để trống</div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" name="resetPassword" class="btn btn-primary">Đổi mật khẩu</button>
@@ -482,9 +575,13 @@
         </div>
     </footer>
 
-    
 
-    
-    <script src="main.js"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="./main.js?v=1"></script>
 </body>
 </html>

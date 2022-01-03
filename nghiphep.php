@@ -90,9 +90,22 @@
             </div>
 
             <ul class="list-unstyled components">
+                <?php
+                    if($num==15){
+                    ?>
                 <li>
                     <a href="./truongphong.php">Quản lý công việc</a>
                 </li>
+                <?php } ?>
+
+                <?php
+                    if($num==12){
+                    ?>
+                <li>
+                    <a href="./nhanvien.php">Quản lý công việc</a>
+                </li>
+                <?php } ?>
+
                 <li class="active">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
