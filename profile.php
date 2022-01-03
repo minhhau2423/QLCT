@@ -4,6 +4,7 @@
     $conn=open_database();
     //$iduser=$_GET['id'];
     $iduser = $_SESSION['id'];
+    $pos = $_SESSION['position'];
 
     //lay thong tin ca nhan cua user
     $sql = "SELECT * FROM user WHERE id =".$iduser."";
@@ -25,6 +26,8 @@
         $uavatar = $row['avatar'];
         $uaddress = $row['address'];
         $uposition = $row['position'];
+        $ucmnd = $row['cmnd'];
+        $uemail = $row['email'];
         $uidpb = $row['idpb'];
     } else {
         echo 'buggggggg';
@@ -41,7 +44,13 @@
     }
 
     //lay thong ke task cua user
-    $sqltask = "SELECT * FROM task WHERE idnv =".$iduser."";
+    if($pos=="Trưởng phòng"){
+        $sqltask = "SELECT * FROM task WHERE idtp =$iduser";
+    }
+    if($pos=="Nhân viên"){
+        $sqltask = "SELECT * FROM task WHERE idnv =$iduser";
+    }
+
     $resultTask = $conn->query($sqltask);
 
     $numNew = 0;
@@ -117,9 +126,9 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="hstyle.css?v=1">
-    <link rel="stylesheet" href="style.css?v=1">
-    <link rel="stylesheet" href="style3.css?v=1">
+
+    <link rel="stylesheet" href="style.css?=1">
+
 
 </head>
 <body> 
@@ -131,10 +140,7 @@
                     <i class="fas fa-align-left"></i>
                     <span>Menu</span>
                 </button>
-                <div class="hsearch_container">
-                    <input type="text" placeholder="Tìm kiếm..." id="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </div>
+                
 
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
@@ -179,12 +185,12 @@
             </div>
 
             <div class="sidebar-header">
-                <img id="logonmenu" src="logo.png" alt="" srcset="">
+                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
             </div>
 
             <ul class="list-unstyled components">
                 <?php
-                    if($uposition=='Trường phòng'){
+                    if($uposition=="Trưởng phòng"){
                     ?>
                 <li>
                     <a href="./truongphong.php">Quản lý công việc</a>
@@ -222,7 +228,7 @@
     </div>
 
 
-    <div class="container profile-container">
+    <div class="container profile-container hscroll">
         <div class="row">
             <img  src="images/bia.jpg" alt="" class="anhbia">
             <div class="avt-group m-auto">
@@ -258,7 +264,7 @@
                     </div>
                     <div class="d-flex row-info">
                         <label class="info-label col-3"> CMND </label>
-                        <div class="info-content col-9">123456789</div>
+                        <div class="info-content col-9"><?=$ucmnd?></div>
                     </div>
                     <div class="d-flex row-info">
                         <label class="info-label col-3"> PHÒNG BAN</label>
@@ -277,7 +283,7 @@
                     </div>
                     <div class="d-flex row-info">
                         <label class="info-label col-3"> EMAIL </label>
-                        <div class="info-content col-9">lisa.blackpin@gmail.com</div>
+                        <div class="info-content col-9"><?=$uemail?></div>
                     </div>
                     <div class="d-flex row-info">
                         <label class="info-label col-3"> ĐỊA CHỈ </label>
@@ -300,16 +306,28 @@
                         if ($numNew>0){
                             ?>
                             <div class="d-flex">
-                                <label>In progress</label>
+                                <label>New  </label>
                                 <div class="progress">
                                     <div class="progress-bar bg-info" role="progressbar" 
-                                    style="width: <?=$numInprogress/$numTotal*100?>%" aria-valuenow="<?=$numInprogress/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    style="width: <?=$numNew/$numTotal*100?>%" aria-valuenow="<?=$numNew/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                             <?php
                         }
                     ?>
-
+                    <?php 
+                        if ($numInprogress>0){
+                            ?>
+                            <div class="d-flex">
+                                <label>In progress</label>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" 
+                                    style="background-color:chocolate; width: <?=$numInprogress/$numTotal*100?>%" aria-valuenow="<?=$numInprogress/$numTotal*100?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    ?>
                     <?php 
                         if ($numCancel>0){
                             ?>
@@ -324,7 +342,7 @@
                         }
                     ?>
                     <?php 
-                        if ($numCancel>0){
+                        if ($numWaiting>0){
                             ?>
                             <div class="d-flex">
                                 <label>Waiting</label>
@@ -373,14 +391,14 @@
                 $sName = $_POST['fullname'];
                 $sGender = $_POST['gender'];
                 $sBirthday = $_POST['birthday'];
-                //$sIdentityCard = $_POST['identityCard'];
+                $sIdentityCard = $_POST['identityCard'];
                 $sPhone = $_POST['phone'];
                 $sEmail = $_POST['email'];
                 $sAddress = $_POST['address'];
 
-                $sql = "UPDATE user SET name='$sName', phone=$sPhone, birthday='$sBirthday', 
+                $sql = "UPDATE user SET name='$sName', phone='$sPhone', birthday='$sBirthday', cmnd='$sIdentityCard', email = '$sEmail',
                         address='$sAddress', gender = $sGender 
-                        WHERE id='$iduser'";
+                        WHERE id=$iduser";
                     
                 if ($conn->query($sql) === FALSE) {
                     echo "Error updating record: " . $conn->error;
@@ -432,15 +450,15 @@
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Chứng minh thư</label>
-                                        <input type="number" class="form-control " name="identityCard" placeholder="Identity card" required>
+                                        <input type="text" class="form-control " name="identityCard" placeholder="Identity card" value="<?=$ucmnd?>" required>
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Số điện thoại</label>
-                                        <input value="<?=$uphone?>" type="number" class="form-control " name="phone" placeholder="Phone number" required>
+                                        <input value="<?=$uphone?>" type="text" class="form-control " name="phone" placeholder="Phone number" required>
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Email</label>
-                                        <input type="email" class="form-control " name="email" placeholder="Email" required>
+                                        <input type="email" class="form-control " name="email" placeholder="Email" value="<?=$uemail?>" required>
                                     </div>
                                     <div class="form-group col-12" > 
                                         <label >Địa chỉ</label>
@@ -566,14 +584,7 @@
         </div>
     </div>          
     
-    <!-- footer -->
-    <footer class="page-footer font-small bg-dark p-4">
-        <div class="text-center p-3 text-white" >
-            Copyright ©
-            <a class="text-white" href="#">Your Webside</a>
-            2017
-        </div>
-    </footer>
+
 
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->

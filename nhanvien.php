@@ -26,8 +26,8 @@ $nhanvien =  $_SESSION['id'];
     <title>Nhân viên</title>
 
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style3.css?v=1">
-    <link rel="stylesheet" href="hstyle.css?v=1">
+    <link rel="stylesheet" href="style.css?v=1">
+   
 
     <!-- cdn bs4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -75,7 +75,7 @@ $nhanvien =  $_SESSION['id'];
             </div>
 
             <div class="sidebar-header">
-                <img id="logonmenu" src="logo.png" alt="" srcset="">
+                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
             </div>
 
             <ul class="list-unstyled components">
@@ -91,7 +91,7 @@ $nhanvien =  $_SESSION['id'];
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Thông tin cá nhân</a>
+                    <a href="./profile.php">Thông tin cá nhân</a>
                 </li>
             </ul>
         </nav>

@@ -28,8 +28,7 @@ $idtask = $_GET['id'];
     <title>Chi tiết task</title>
     <!-- cdn bs4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style3.css?v=1">
-    <link rel="stylesheet" href="hstyle.css?v=1">
+    <link rel="stylesheet" href="style.css?v=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 </head>
@@ -74,7 +73,7 @@ $idtask = $_GET['id'];
             </div>
 
             <div class="sidebar-header">
-                <img id="logonmenu" src="logo.png" alt="" srcset="">
+                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
             </div>
 
             <ul class="list-unstyled components">
@@ -93,7 +92,7 @@ $idtask = $_GET['id'];
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Thông tin cá nhân</a>
+                    <a href="./profile.php">Thông tin cá nhân</a>
                 </li>
             </ul>
         </nav>
@@ -218,13 +217,13 @@ $idtask = $_GET['id'];
             echo "</form>";
             if ($row['status'] == "completed") {
                 if ($row['react'] == 'GOOD') {
-                    echo " <img class='react' src='./images/good.png'>";
+                    echo "<div style='height:40px'> <img class='react' src='./images/good.png'> </div>";
                 }
                 if ($row['react'] == 'OK') {
-                    echo " <img class='react' src='./images/ok.png'>";
+                    echo "<div style='height:45px'> <img class='react' src='./images/ok.png'> </div>";
                 }
                 if ($row['react'] == 'BAD') {
-                    echo " <img class='react' src='./images/bad.png'>";
+                    echo " <div style='height:40px'> <img class='react' src='./images/bad.png'> </div>";
                 }
             }
 

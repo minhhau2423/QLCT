@@ -40,8 +40,8 @@
     <title>Nghỉ phép</title>
     <!-- cdn bs4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style3.css?v=1">
-    <link rel="stylesheet" href="hstyle.css?v=1">
+    <link rel="stylesheet" href="style.css?v=1">
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 </head>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="sidebar-header">
-                <img id="logonmenu" src="logo.png" alt="" srcset="">
+                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
             </div>
 
             <ul class="list-unstyled components">
@@ -122,7 +122,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Thông tin cá nhân</a>
+                    <a href="./profile.php">Thông tin cá nhân</a>
                 </li>
             </ul>
         </nav>

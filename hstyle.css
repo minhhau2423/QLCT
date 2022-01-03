@@ -1,7 +1,5 @@
 /* HAU - truong phong */
-/* *:not(img,.avt-group){
-    overflow-x: hidden;
-} */
+
 .wrapper{
     box-sizing: border-box;
 }
