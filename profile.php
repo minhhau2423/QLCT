@@ -43,6 +43,7 @@
         echo 'buggggggg22222';
     }
 
+    $sqltask = "";
     //lay thong ke task cua user
     if($pos=="Trưởng phòng"){
         $sqltask = "SELECT * FROM task WHERE idtp =$iduser";
@@ -50,8 +51,6 @@
     if($pos=="Nhân viên"){
         $sqltask = "SELECT * FROM task WHERE idnv =$iduser";
     }
-
-    $resultTask = $conn->query($sqltask);
 
     $numNew = 0;
     $numInprogress = 0;
@@ -61,27 +60,30 @@
     $numCompleted= 0;
     $numTotal = 0;
 
-    if ($resultTask->num_rows > 0) {
-        while($row = $resultTask->fetch_assoc()) {
-            if($row['status']=="completed"){
-                $numCompleted +=1;
+    if ($sqltask!=""){
+        $resultTask = $conn->query($sqltask);
+        if ($resultTask->num_rows > 0) {
+            while($row = $resultTask->fetch_assoc()) {
+                if($row['status']=="completed"){
+                    $numCompleted +=1;
+                }
+                if($row['status']=="new"){
+                    $numNew +=1;
+                }
+                if($row['status']=="rejected"){
+                   $numRejected +=1;
+                }
+                if($row['status']=="waiting"){
+                    $numWaiting +=1;
+                }
+                if($row['status']=="inprogress"){
+                    $numInprogress +=1;
+                }
+                if($row['status']=="canceled"){
+                    $numCancel +=1;
+                }
+                $numTotal +=1;
             }
-            if($row['status']=="new"){
-                $numNew +=1;
-            }
-            if($row['status']=="rejected"){
-               $numRejected +=1;
-            }
-            if($row['status']=="waiting"){
-                $numWaiting +=1;
-            }
-            if($row['status']=="inprogress"){
-                $numInprogress +=1;
-            }
-            if($row['status']=="canceled"){
-                $numCancel +=1;
-            }
-            $numTotal +=1;
         }
     }
 ?>

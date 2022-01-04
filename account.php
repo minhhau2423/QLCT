@@ -65,37 +65,67 @@
 		$number=$row['numofdaysoff'];
 		$update=true;
 	}
+
+
 	if(isset($_POST['update'])){
 		$id=$_POST['id'];
 		$name=$_POST['name'];
 		$username=$_POST['username'];
-		$password=$_POST['password'];
 		$phone=$_POST['phone'];
 		$birthday=$_POST['birthday'];
 		$address=$_POST['address'];
 		$position=$_POST['position'];
-		$idpb=$row['idpb'];
-		$number=$_POST['number'];
+		//$idpb=$row['idpb'];
+		$idpb=$_POST['idpb'];
+		//$number=$_POST['number'];
+		$number=0;
+		if(isset($position)){
+			if ($position=="Nhân viên"){
+				$number=12;
+			}
+			if ($position=="Trưởng phòng"){
+				$number=15;
+			}
+		}
 		$oldimage=$_POST['oldimage'];
 
 		if(isset($_FILES['image']['name'])&&($_FILES['image']['name']!="")){
-			$newimage="uploads/".$_FILES['image']['name'];
+			$newimage='uploads/'.$_FILES['image']['name'];
 			unlink($oldimage);
 			move_uploaded_file($_FILES['image']['tmp_name'], $newimage);
 		}
 		else{
 			$newimage=$oldimage;
 		}
-		$query="UPDATE user SET name=?,username=?,password=?,phone=?,birthday=?,avatar=?,address=?,position=?,idpb=?,numofdaysoff=? WHERE id=?";
+		$query="UPDATE user SET name=?,username=?,phone=?,birthday=?,avatar=?,address=?,position=?,idpb=?,numofdaysoff=? WHERE id=?";
 		$conn=open_database();
 		$stmt=$conn->prepare($query);
-		$stmt->bind_param("ssssssssiii",$name,$username,$password,$phone,$birthday,$newimage,$address,$position,$idpb, $number, $id);
+		$stmt->bind_param("sssssssiii",$name,$username,$phone,$birthday,$newimage,$address,$position,$idpb, $number, $id);
 		$stmt->execute();
 
 		$_SESSION['response']="Bạn đã cập nhật thành công";
 		$_SESSION['res_type']="primary";
 		header('location:user.php');
 	}
+
+
+	if(isset($_POST['resetpassword'])){
+		$id=$_POST['id'];
+		$username=$_POST['username'];
+		$hashed_password = password_hash($username, PASSWORD_DEFAULT);
+
+		$query="UPDATE user SET password=? WHERE id=?";
+		$conn=open_database();
+		$stmt=$conn->prepare($query);
+		$stmt->bind_param("si",$hashed_password,$id);
+		$stmt->execute();
+
+		$_SESSION['response']="Reset mật khẩu thành công";
+		$_SESSION['res_type']="primary";
+		header('location:user.php');
+	}
+
+
 	if(isset($_GET['details'])){
 		$id=$_GET['details'];
 		$query="SELECT * FROM user WHERE id=?";

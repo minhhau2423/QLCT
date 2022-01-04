@@ -191,17 +191,15 @@ function updateList() {
     output.innerHTML = '<ul>'+children+'</ul>';
 }
 
-// function updateList2() {
-//     var input2 = document.getElementById('filepost2');
-//     var output2 = document.getElementById('fileList2');
-//     var children2 = "";
-//     for (var i = 0; i < input2.files.length; ++i) {
-//         children2 += '<li>' + input2.files.item(i).name + '</li>';
-//     }
-//     output2.innerHTML = '<ul>'+children2+'</ul>';
-// }
+
 
 //download file
 function download(name){
     window.location="download.php?path=files/"+name;
  }
+
+$(document).ready(function() {
+    $('#data-table').DataTable({
+        paging: true
+    });
+});

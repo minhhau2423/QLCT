@@ -84,6 +84,9 @@
                         if($data['position']=='Trưởng phòng'){
                             header('Location: truongphong.php');
                         }
+                        if($data['position']=='Giám đốc'){
+                            header('Location: user.php');
+                        }
                     }
                     exit();
                 } else {
