@@ -34,7 +34,7 @@
 		$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
 		$conn=open_database();
 		$stmt=$conn->prepare($sql);
-		$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$upload,$address,$position,$idpb,$number);
+		$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
 		$stmt->execute();
 		move_uploaded_file($_FILES['image']['tmp_name'], $upload);
 		header('location:user.php');
@@ -90,9 +90,10 @@
 		$oldimage=$_POST['oldimage'];
 
 		if(isset($_FILES['image']['name'])&&($_FILES['image']['name']!="")){
-			$newimage='uploads/'.$_FILES['image']['name'];
+			$newimage=time().$_FILES['image']['name'];
+			$pathnewimage='uploads/'.time().$_FILES['image']['name'];
 			unlink($oldimage);
-			move_uploaded_file($_FILES['image']['tmp_name'], $newimage);
+			move_uploaded_file($_FILES['image']['tmp_name'], $pathnewimage);
 		}
 		else{
 			$newimage=$oldimage;

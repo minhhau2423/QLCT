@@ -123,8 +123,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
-        <h3 class="text-center text-info">Thêm phòng ban</h3>
+      <div class="col-md-3">
+        <h3 class="text-center" style="color:#8D4E85;">Thêm phòng ban</h3>
         <form action="room.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="idpb" value="<?= $id; ?>">
           <div class="form-group">
@@ -145,7 +145,7 @@
           </div>
         </form>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-9">
         <?php
           $query = 'SELECT * FROM department';
           $conn=open_database();
@@ -154,7 +154,7 @@
           $stmt->execute();
           $result = $stmt->get_result();
         ?>
-        <h3 class="text-center text-info">Phòng Ban</h3>
+        <h3 class="text-center" style="color:#8D4E85;">Danh sách phòng ban</h3>
         <table class="table table-hover" style="text-align: center;" id="data-table">
           <thead>
             <tr>

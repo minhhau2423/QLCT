@@ -31,10 +31,6 @@
                 <i class="fas fa-align-left"></i>
                 <span>Menu</span>
             </button>
-            <div class="hsearch_container">
-                <input type="text" placeholder="Tìm kiếm..." id="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
 
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-align-justify"></i>
@@ -52,7 +48,7 @@
                             }
                             if($us['avatar']!=null){
                                 $avt = $us['avatar'];
-                                echo "src='$avt'";
+                                echo "src='uploads/$avt'";
                             }else{
                                 $tmp='avt_tmp.jpg';
                                 echo "src='images/$tmp'";
@@ -60,6 +56,7 @@
                         ?>
                         class="rounded-circle" height="32" width="32"
                         alt="Avatar"
+                        style="object-fit:cover;"
                         loading="lazy" />
                     </li>
                     <li class="nav-item">
@@ -117,7 +114,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h3 style="color:#8D4E85;" class="text-center">Thêm nhân viên</h3>
         <form action="account.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id" value="<?= $id; ?>">
@@ -139,7 +136,7 @@
             <?php
               if($photo!=null){
                   ?>
-                    <img src="<?= $photo; ?>" width="120" class="img-thumbnail">
+                    <img src="uploads/<?= $photo; ?>" width="120" class="img-thumbnail">
                   <?php
               }
             ?>
@@ -186,7 +183,7 @@
           </div>
         </form>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-9">
         <?php
           $query = 'SELECT * FROM user, department WHERE user.idpb=department.idpb AND user.position<>"Giám đốc"' ;
      
@@ -211,7 +208,7 @@
             <?php while ($row = $result->fetch_assoc()) { ?>
             <tr>
               <td><?= $row['id']; ?></td>
-              <td><img src="<?= $row['avatar'];?>" width="50px" height="50px" style="object-fit:cover;"></td>
+              <td><img src="uploads/<?=$row['avatar'];?>" width="50px" height="50px" style="object-fit:cover;"></td>
               <td><?= $row['name']; ?></td>
               <td><?= $row['phone']; ?></td>
               <td><?= $row['position']; ?></td>

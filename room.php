@@ -64,11 +64,12 @@
 	}
 
     if(isset($_POST['update_details'])){
-		$sql="UPDATE user SET position='Nhân viên'";
-		$conn=open_database();
-		$query=$conn->query($sql);
 		$id=$_POST['id_click'];
 		$idpb=$_POST['id_click_pb'];
+		$sql="UPDATE user SET position='Nhân viên' WHERE user.idpb = $idpb";
+		$conn=open_database();
+		$query=$conn->query($sql);
+
 		$position="";
 		$position="Trưởng phòng";
 		$query="UPDATE user SET position=? WHERE id=?";

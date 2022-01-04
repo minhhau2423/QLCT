@@ -4,10 +4,6 @@
         header('Location: changepass.php');
         exit();  
     }
-    if (!isset($_SESSION['username']) || $_SESSION['position']!="Giám đốc") {
-        header('Location: index.php');
-        exit();
-    } 
     require_once('database.php');
     $conn = open_database();
     $idtp = $_SESSION['id'];
@@ -122,12 +118,12 @@
                             <tbody>
                                 <?php
                                 $i = 1;
-                                $sql = "SELECT dayoff.id, dayoff.date,dayoff.status, dayoff.numday, user.name FROM dayoff INNER JOIN user WHERE user.id=dayoff.iduser AND user.idpb=$idpb AND user.id!=$idtp ORDER BY dayoff.id DESC";
+                                $sql = "SELECT dayoff.id, dayoff.date,dayoff.status, dayoff.numday, user.name FROM dayoff INNER JOIN user WHERE user.id=dayoff.iduser AND user.position='Trưởng phòng'"; 
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                 ?>
-                                        <tr class="<?php echo $row['status']; ?>" onclick="location.href='ctnghiphep.php?id=<?=$row['id']?>'">
+                                        <tr class="<?php echo $row['status']; ?>" onclick="location.href='gd_ctphep.php?id=<?=$row['id']?>'">
                                             <th scope="row"><?php echo $i; ?></th>
                                             <td><?php echo $row['date']; ?></td>
                                             <td><?php echo $row['name']; ?></td>

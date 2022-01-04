@@ -34,14 +34,19 @@
     }
 
     //lay ten phong ban cua user
-    $sqlpb = "SELECT * FROM department WHERE idpb =".$uidpb."";
-    $result2 = $conn->query($sqlpb);
-    if ($result2->num_rows > 0) {
-        $row = $result2->fetch_assoc();
-        $unamepb = $row['namepb'];
-    }else {
-        echo 'buggggggg22222';
+    if ($uidpb!=null){
+        $sqlpb = "SELECT * FROM department WHERE idpb =".$uidpb."";
+        $result2 = $conn->query($sqlpb);
+        if ($result2->num_rows > 0) {
+            $row = $result2->fetch_assoc();
+            $unamepb = $row['namepb'];
+        }else {
+            echo 'buggggggg22222';
+        }
+    } else{
+        $unamepb = 'VIP';
     }
+
 
     $sqltask = "";
     //lay thong ke task cua user

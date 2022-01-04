@@ -28,10 +28,6 @@
                     <i class="fas fa-align-left"></i>
                     <span>Menu</span>
                 </button>
-                <div class="hsearch_container">
-                    <input type="text" placeholder="Tìm kiếm..." id="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </div>
 
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
@@ -57,6 +53,7 @@
                             ?>
                             class="rounded-circle" height="32" width="32"
                             alt="Avatar"
+                            style="object-fit:cover;"
                             loading="lazy" />
                         </li>
                         <li class="nav-item">
@@ -111,7 +108,7 @@
         <div class="row justify-content-center">
         <table class="table" style="width:800px; text-align: center;">
           <tr>
-            <td colspan=2 ><img src="<?=$vphoto?>"
+            <td colspan=2 ><img src="uploads/<?=$vphoto?>"
                 style="width:150px;height:150px;border-radius:50%;object-fit:cover;border: solid #8D4E85;" class="img-thumbnail"></td>
           </tr>
           <tr>
