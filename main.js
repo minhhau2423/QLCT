@@ -191,8 +191,6 @@ function updateList() {
     output.innerHTML = '<ul>'+children+'</ul>';
 }
 
-
-
 //download file
 function download(name){
     window.location="download.php?path=files/"+name;
@@ -203,3 +201,4 @@ $(document).ready(function() {
         paging: true
     });
 });
+

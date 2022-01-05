@@ -4,7 +4,7 @@
         header('Location: changepass.php');
         exit();  
     }
-    if (!isset($_SESSION['username']) || $_SESSION['position']!="Trưởng phòng") {
+    if (!isset($_SESSION['username']) || ($_SESSION['position']!="Trưởng phòng" && $_SESSION['position']!="Giám đốc")) {
         header('Location: index.php');
         exit();
     } 
@@ -62,36 +62,8 @@
             </div>
         </nav>
 
-        <!-- slidebar -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-
-            <div class="sidebar-header">
-                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-            </div>
-
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="./truongphong.php">Quản lý công việc</a>
-                </li>
-                <li class="active">
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
-                        </li>
-                        <li>
-                            <a href="./nghiphep.php">Xin nghỉ phép</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./profile.php">Thông tin cá nhân</a>
-                </li>
-            </ul>
-        </nav>
+    <!-- slidebar -->
+    <?php include 'slidebar.php' ?>
     </div>
 
     <div class="wrapper">
@@ -123,6 +95,9 @@
                                 <?php
                                 $i = 1;
                                 $sql = "SELECT dayoff.id, dayoff.date,dayoff.status, dayoff.numday, user.name FROM dayoff INNER JOIN user WHERE user.id=dayoff.iduser AND user.idpb=$idpb AND user.id!=$idtp ORDER BY dayoff.id DESC";
+                                if ($_SESSION['position']=='Giám đốc'){
+                                    $sql= "SELECT dayoff.id, dayoff.date,dayoff.status, dayoff.numday, user.name FROM dayoff INNER JOIN user WHERE user.id=dayoff.iduser AND user.position='Trưởng phòng' ORDER BY dayoff.id DESC"; 
+                                }
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {

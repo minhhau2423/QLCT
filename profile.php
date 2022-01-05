@@ -140,99 +140,7 @@
 </head>
 <body> 
     <!-- header -->
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-light h2">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn dashboard">
-                    <i class="fas fa-align-left"></i>
-                    <span>Menu</span>
-                </button>
-                
-
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                        <img style="object-fit:cover;"
-                            <?php
-                                $sql = "SELECT * FROM user WHERE id =$iduser";
-                                $tmp=$conn->query($sql);
-                                if ($tmp->num_rows > 0) {
-                                    $us = $tmp->fetch_assoc();
-                                }
-                                if($us['avatar']!=null){
-                                    $avt = $us['avatar'];
-                                    echo "src='uploads/$avt'";
-                                }else{
-                                    $tmp='avt_tmp.jpg';
-                                    echo "src='images/$tmp'";
-                                }
-                            ?>
-                            class="rounded-circle" height="32" width="32"
-                            alt="Avatar"
-                            loading="lazy" />
-                        </li>
-                        <li class="nav-item">
-                            <button onclick="location.href='logout.php'">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- slidebar -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-
-            <div class="sidebar-header">
-                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-            </div>
-
-            <ul class="list-unstyled components">
-                <?php
-                    if($uposition=="Trưởng phòng"){
-                    ?>
-                <li>
-                    <a href="./truongphong.php">Quản lý công việc</a>
-                </li>
-                <?php } ?>
-
-                <?php
-                    if($uposition=='Nhân viên'){
-                    ?>
-                <li>
-                    <a href="./nhanvien.php">Quản lý công việc</a>
-                </li>
-                <?php } ?>
-
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <?php
-                            if($uposition=='Trường phòng'){
-                        ?>
-                        <li>
-                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
-                        </li>
-                        <?php } ?>
-                        <li>
-                            <a href="./nghiphep.php">Xin nghỉ phép</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="active">
-                    <a href="#">Thông tin cá nhân</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <?php include 'header.php' ?>
 
 
     <div class="container profile-container hscroll">
@@ -254,58 +162,8 @@
         </div>
 
         <div class="row p-5">
-            <div class="col-sm-12 col-md-12 col-lg-7">
-                <div class="card card-pf p-2 mb-4">
-                    <h5 class="card-info-label">Thông tin cá nhân</h5>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> HỌ TÊN </label>
-                        <div class="info-content col-9"><?=$uname?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> GIỚI TÍNH </label>
-                        <div class="info-content col-9"><?=$ugenderStr?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> SINH NHẬT </label>
-                        <div class="info-content col-9"><?=$ubirthday?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> CMND </label>
-                        <div class="info-content col-9"><?=$ucmnd?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> PHÒNG BAN</label>
-                        <div class="info-content col-9"><?=$unamepb?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> CHỨC VỤ </label>
-                        <div class="info-content col-9"><?=$uposition?></div>
-                    </div>
-                </div>
-                <div class="card card-pf p-2 mb-4">
-                    <h5 class="card-info-label">THÔNG TIN LIÊN HỆ</h5>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> SỐ ĐIỆN THOẠI </label>
-                        <div class="info-content col-9"><?=$uphone?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> EMAIL </label>
-                        <div class="info-content col-9"><?=$uemail?></div>
-                    </div>
-                    <div class="d-flex row-info">
-                        <label class="info-label col-3"> ĐỊA CHỈ </label>
-                        <div class="info-content col-9"><?=$uaddress?></div>
-                    </div>
-                    <div>
-                        <a style="float:right;" href="#" data-toggle="modal" data-target="#myModalResetPassword">Đổi mật khẩu</a>
-                    </div>
-                </div>
-                <div>
-                    <button class="btn btn-edit-profile" data-toggle="modal" data-target="#myModal"> SỬA</button>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-5">
-                <div class="card card-pf p-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card card-pf p-3 mb-3">
                     <div class="d-flex ">
                         <label><b>Tất cả: </b><?=$numTotal?></label>
                     </div>
@@ -387,6 +245,56 @@
                             <?php
                         }
                     ?>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card card-pf p-2 mb-4">
+                    <h5 class="card-info-label">Thông tin cá nhân</h5>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> HỌ TÊN </label>
+                        <div class="info-content col-9"><?=$uname?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> GIỚI TÍNH </label>
+                        <div class="info-content col-9"><?=$ugenderStr?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> SINH NHẬT </label>
+                        <div class="info-content col-9"><?=$ubirthday?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> CMND </label>
+                        <div class="info-content col-9"><?=$ucmnd?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> PHÒNG BAN</label>
+                        <div class="info-content col-9"><?=$unamepb?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> CHỨC VỤ </label>
+                        <div class="info-content col-9"><?=$uposition?></div>
+                    </div>
+                </div>
+                <div class="card card-pf p-2 mb-4">
+                    <h5 class="card-info-label">THÔNG TIN LIÊN HỆ</h5>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> SỐ ĐIỆN THOẠI </label>
+                        <div class="info-content col-9"><?=$uphone?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> EMAIL </label>
+                        <div class="info-content col-9"><?=$uemail?></div>
+                    </div>
+                    <div class="d-flex row-info">
+                        <label class="info-label col-3"> ĐỊA CHỈ </label>
+                        <div class="info-content col-9"><?=$uaddress?></div>
+                    </div>
+                    <div>
+                        <a style="float:right;" href="#" data-toggle="modal" data-target="#myModalResetPassword">Đổi mật khẩu</a>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-edit-profile" data-toggle="modal" data-target="#myModal"> SỬA</button>
                 </div>
             </div>
         </div>
@@ -501,7 +409,7 @@
                                 <div class="">
                                     <div class="form-group col-12">
                                             <label for="" >Thêm ảnh đại diện</label>
-                                            <input type="file" class=" custom-file-input" id="filepost" multiple hidden name="file" onchange="updateList()">
+                                            <input type="file" class=" custom-file-input" id="filepost" accept="image/*" hidden name="file" onchange="updateList()">
                                             <label for="filepost" class="btn btn-primary btn-sm form-control" >
                                                 <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
                                             </label>

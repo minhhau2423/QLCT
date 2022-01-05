@@ -1,4 +1,13 @@
 <?php
+  session_start();
+  if ($_SESSION['first']){
+      header('Location: changepass.php');
+      exit();
+  }
+  if (!isset($_SESSION['username']) || $_SESSION['position'] != "Giám đốc") {
+      header('Location: index.php');
+      exit();
+  }
   include 'account.php';
 ?>
 <!DOCTYPE html>
@@ -20,90 +29,9 @@
 </head>
 
 <body>  
-        <!-- header -->
-        <div>
-        <nav class="navbar navbar-expand-lg navbar-light h2">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn dashboard">
-                    <i class="fas fa-align-left"></i>
-                    <span>Menu</span>
-                </button>
-
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <img
-                            <?php
-                                $sql = "SELECT * FROM user WHERE position ='Giám đốc'";
-                                $tmp=$conn->query($sql);
-                                if ($tmp->num_rows > 0) {
-                                    $us = $tmp->fetch_assoc();
-                                }
-                                if($us['avatar']!=null){
-                                    $avt = $us['avatar'];
-                                    echo "src='uploads/$avt'";
-                                }else{
-                                    $tmp='avt_tmp.jpg';
-                                    echo "src='images/$tmp'";
-                                }
-                            ?>
-                            class="rounded-circle" height="32" width="32"
-                            alt="Avatar"
-                            style="object-fit:cover;"
-                            loading="lazy" />
-                        </li>
-                        <li class="nav-item">
-                            <button onclick="location.href='logout.php'">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- slidebar -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-
-            <div class="sidebar-header">
-                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-            </div>
-
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="./user.php">Quản lý nhân viên</a>
-                </li>
-                <li >
-                    <a href="./department.php">Quản lý phòng ban</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
-                        </li>
-                        <li>
-                            <a href="./nghiphep.php">Xin nghỉ phép</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./profile.php">Thông tin cá nhân</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-
+    <!-- header -->
+    <?php include 'header.php' ?>
       <div class="container">
-
 
         <div class="row justify-content-center">
         <table class="table" style="width:800px; text-align: center;">

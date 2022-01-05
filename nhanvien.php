@@ -37,65 +37,7 @@ $nhanvien =  $_SESSION['id'];
 
 <body>
     <!-- header -->
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-light h2">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn dashboard">
-                    <i class="fas fa-align-left"></i>
-                    <span>Menu</span>
-                </button>
-                <div class="hsearch_container">
-                    <input type="text" placeholder="Tìm kiếm..." id="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </div>
-
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="32" alt="Avatar" loading="lazy" />
-                        </li>
-                        <li class="nav-item">
-                            <button onclick="location.href='logout.php'">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- slidebar -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-
-            <div class="sidebar-header">
-                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-            </div>
-
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="#homeSubmenu">Quản lý công việc</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="./nghiphep.php">Xin nghỉ phép</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./profile.php">Thông tin cá nhân</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <?php include 'header.php' ?>
 
     <div class="wrapper">
         <!-- Page Content  -->

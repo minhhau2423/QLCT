@@ -1,5 +1,15 @@
 <?php
+  session_start();
+  if ($_SESSION['first']){
+      header('Location: changepass.php');
+      exit();
+  }
+  if (!isset($_SESSION['username']) || $_SESSION['position'] != "Giám đốc") {
+      header('Location: index.php');
+      exit();
+  }
   include 'room.php';
+  $conn=open_database();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,92 +32,8 @@
 </head>
 
 <body>
-      <!-- header -->
-      <div>
-        <nav class="navbar navbar-expand-lg navbar-light h2">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn dashboard">
-                    <i class="fas fa-align-left"></i>
-                    <span>Menu</span>
-                </button>
-                <div class="hsearch_container">
-                    <input type="text" placeholder="Tìm kiếm..." id="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </div>
-
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <!-- <li class="nav-item active">
-                            <img
-                            <?php
-                                // $sql = "SELECT * FROM user WHERE id =$truongphong";
-                                // $tmp=$conn->query($sql);
-                                // if ($tmp->num_rows > 0) {
-                                //     $us = $tmp->fetch_assoc();
-                                // }
-                                // if($us['avatar']!=null){
-                                //     $avt = $us['avatar'];
-                                //     echo "src='uploads/$avt'";
-                                // }else{
-                                //     $tmp='avt_tmp.jpg';
-                                //     echo "src='images/$tmp'";
-                                // }
-                            ?>
-                            class="rounded-circle" height="32" width="32"
-                            alt="Avatar"
-                            loading="lazy" />
-                        </li> -->
-                        <li class="nav-item">
-                            <button onclick="location.href='logout.php'">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- slidebar -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-
-            <div class="sidebar-header">
-                <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-            </div>
-
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="./user.php">Quản lý nhân viên</a>
-                </li>
-                <li class="active">
-                    <a href="./department.php">Quản lý phòng ban</a>
-                </li>
-                <li>
-                    <a href="#homeSubmenu">Quản lý công việc</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
-                        </li>
-                        <li>
-                            <a href="./nghiphep.php">Xin nghỉ phép</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./profile.php">Thông tin cá nhân</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+  <!-- header -->
+  <?php include 'header.php' ?>
 
   <div class="container-fluid">
     <div class="row justify-content-center">
@@ -123,9 +49,9 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3 card p-3">
         <h3 class="text-center" style="color:#8D4E85;">Thêm phòng ban</h3>
-        <form action="room.php" method="post" enctype="multipart/form-data">
+        <form action="room.php" method="post" enctype="multipart/form-data" >
           <input type="hidden" name="idpb" value="<?= $id; ?>">
           <div class="form-group">
             <input type="text" name="namepb" value="<?= $namepb; ?>" class="form-control" placeholder="Tên phòng ban" required>
@@ -134,7 +60,7 @@
             <input type="text" name="description" value="<?= $description; ?>" class="form-control" placeholder="Mô tả" required>
           </div>
           <div class="form-group">
-            <input type="number" name="numberRoom" value="<?= $numberRoom; ?>"  class="form-control" placeholder="Số phòng" required>
+            <input type="text" name="numberRoom" value="<?= $numberRoom; ?>"  class="form-control" placeholder="Số phòng" required>
           </div>
           <div class="form-group">
             <?php if ($update == true) { ?>

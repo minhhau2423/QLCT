@@ -1,4 +1,17 @@
 <?php
+  if(!isset($_SESSION)) 
+  { 
+    session_start(); 
+  } 
+  if ($_SESSION['first']){
+      header('Location: changepass.php');
+      exit();
+  }
+  if (!isset($_SESSION['username']) || $_SESSION['position'] != "Giám đốc") {
+      header('Location: index.php');
+      exit();
+  }
+  $_SESSION['position'];
   $idpb="";
   include 'account.php';
   $conn=open_database();
@@ -24,81 +37,7 @@
 
 <body>
     <!-- header -->
-    <div>
-    <nav class="navbar navbar-expand-lg navbar-light h2">
-        <div class="container-fluid">
-            <button type="button" id="sidebarCollapse" class="btn dashboard">
-                <i class="fas fa-align-left"></i>
-                <span>Menu</span>
-            </button>
-
-            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-align-justify"></i>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <img
-                        <?php
-                            $sql = "SELECT * FROM user WHERE position ='Giám đốc'";
-                            $tmp=$conn->query($sql);
-                            if ($tmp->num_rows > 0) {
-                                $us = $tmp->fetch_assoc();
-                            }
-                            if($us['avatar']!=null){
-                                $avt = $us['avatar'];
-                                echo "src='uploads/$avt'";
-                            }else{
-                                $tmp='avt_tmp.jpg';
-                                echo "src='images/$tmp'";
-                            }
-                        ?>
-                        class="rounded-circle" height="32" width="32"
-                        alt="Avatar"
-                        style="object-fit:cover;"
-                        loading="lazy" />
-                    </li>
-                    <li class="nav-item">
-                        <button onclick="location.href='logout.php'">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- slidebar -->
-    <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fas fa-arrow-left"></i>
-        </div>
-
-        <div class="sidebar-header">
-            <img id="logonmenu" src="images/logo.png" alt="" srcset="">
-        </div>
-
-        <ul class="list-unstyled components">
-            <li class="active">
-                <a href="./user.php">Quản lý nhân viên</a>
-            </li>
-            <li>
-                <a href="./department.php">Quản lý phòng ban</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Nghỉ phép</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="./duyetnghiphep.php">Duyệt nghỉ phép</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="./profile.php">Thông tin cá nhân</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+    <?php include 'header.php' ?>
 
   <div class="container-fluid">
     <div class="row justify-content-center">
@@ -114,7 +53,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3 card p-3">
         <h3 style="color:#8D4E85;" class="text-center">Thêm nhân viên</h3>
         <form action="account.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id" value="<?= $id; ?>">
@@ -132,7 +71,7 @@
           </div>
           <div class="form-group">
             <input type="hidden" name="oldimage" value="<?= $photo; ?>">
-            <input type="file" name="image" class="custom-file">
+            <input type="file" name="image" class="custom-file" accept="image/*">
             <?php
               if($photo!=null){
                   ?>
@@ -224,10 +163,8 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-
-  </script>
       <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

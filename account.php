@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	include 'database.php';
 	$update=false;
 	$id="";
@@ -28,7 +27,7 @@
 		else{
 			$position="Nhân viên";
 		}
-		$photo=$_FILES['image']['name'];
+		$photo=time().$_FILES['image']['name'];
 		$address=$_POST['address'];
 		$upload="uploads/".$photo;
 		$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
