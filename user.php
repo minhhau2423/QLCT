@@ -1,4 +1,5 @@
 <?php
+  include 'account.php';
   if(!isset($_SESSION)) 
   { 
     session_start(); 
@@ -13,7 +14,6 @@
   }
   $_SESSION['position'];
   $idpb="";
-  include 'account.php';
   $conn=open_database();
 ?>
 <!DOCTYPE html>
@@ -54,45 +54,21 @@
     <div class="row">
       <div class="col-md-3 card p-3">
         <h3 style="color:#8D4E85;" class="text-center">Thêm nhân viên</h3>
-        <form action="account.php" method="post" enctype="multipart/form-data">
+        <form action="account.php" id="form-add-task" method="post" enctype="multipart/form-data" novalidate class="needs-validation">
           <input type="hidden" name="id" value="<?= $id; ?>">
           <div class="form-group">
             <input type="text" name="name" value="<?= $name; ?>" class="form-control" placeholder="Họ tên" required>
+            <div class="invalid-feedback">Không được để trống</div>
           </div>
           <div class="form-group">
             <input type="text" name="username" value="<?= $username; ?>" class="form-control" placeholder="Tên đăng nhập" required>
+            <div class="invalid-feedback">Không được để trống</div>
           </div>
           <div class="form-group">
-            <input type="tel" name="phone" value="<?= $phone; ?>" class="form-control" placeholder="Số điện thoại" required>
-          </div>
-          <div class="form-group">
-            <input type="date" name="birthday" value="<?= $birthday; ?>" class="form-control" placeholder="Ngày sinh" required>
-          </div>
-          <div class="form-group">
-            <input type="hidden" name="oldimage" value="<?= $photo; ?>">
-            <input type="file" name="image" class="custom-file" accept="image/*">
-            <?php
-              if($photo!=null){
-                  ?>
-                    <img src="uploads/<?= $photo; ?>" width="120" class="img-thumbnail">
-                  <?php
-              }
-            ?>
-            
-          </div>
-          <div class="form-group">
-            <input type="text" name="address" value="<?= $address; ?>" class="form-control" placeholder="Địa chỉ" required>
-          </div>
-          <input type="checkbox" value="<?= $position; ?>" name="position" id="position">
-          <span class="checkmark">Admin</span>
-
-          <br>
-          <br>
           <select  class="custom-select" style="height: auto;"  id="selectnv" name="idpb" required >
-              <option disabled>--Chọn Phòng Ban--</option>
+              <!-- <option selected disabled>--Chọn Phòng Ban--</option> -->
               <?php  
-                  $sql = "SELECT * FROM department";
-          
+                  $sql = "SELECT * FROM department";      
                   $result = $conn->query($sql);
                   if ($result->num_rows > 0) {
                       while($row = $result->fetch_assoc()) {
@@ -103,13 +79,33 @@
                   }
               ?>
            </select>
-          <br>
-          <br>
-          <div class="form-group">
-            <input type="text" name="position" value="<?= $position; ?>" class="form-control" placeholder="Chức vụ" readonly>
+           <div class="invalid-feedback">Không được để trống</div>
+        </div>
+        <div class="form-group">
+            <input type="text" name="position" value="<?php if ($position==null){ echo "Nhân viên";} else echo $position?>" class="form-control" placeholder="Chức vụ" readonly>
           </div>
           <div class="form-group">
-            <input type="number" name="number" value="<?= $number; ?>" class="form-control" placeholder="Số ngày nghỉ" readonly>
+            <input type="number" name="number" value="<?php if ($number==null){ echo 12;} else echo $number?>" class="form-control" placeholder="Số ngày nghỉ" readonly>
+          </div>
+          <div class="form-group">
+            <input type="tel" name="phone" value="<?= $phone; ?>" class="form-control" placeholder="Số điện thoại">
+          </div>
+          <div class="form-group">
+            <input type="date" name="birthday" value="<?= $birthday; ?>" class="form-control" placeholder="Ngày sinh" >
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="oldimage" value="<?= $photo; ?>">
+            <input type="file" name="image" class="custom-file" accept="image/*">
+            <?php
+              if($photo!=null){
+                ?>
+                  <img src="uploads/<?= $photo; ?>" width="120" class="img-thumbnail">
+                <?php
+              }
+            ?> 
+          </div>
+          <div class="form-group">
+            <input type="text" name="address" value="<?= $address; ?>" class="form-control" placeholder="Địa chỉ">
           </div>
           <div class="form-group">
             <?php if ($update == true) { ?>
@@ -162,14 +158,17 @@
       </div>
     </div>
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Popper JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
   <script type="text/javascript" src="./main.js?v=1"></script>
+
 </body>
 
 </html>

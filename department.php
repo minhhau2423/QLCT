@@ -1,14 +1,14 @@
 <?php
-  session_start();
+  //session_start();
+  include 'room.php';
   if ($_SESSION['first']){
-      header('Location: changepass.php');
-      exit();
+    header('Location: changepass.php');
+    exit();
   }
   if (!isset($_SESSION['username']) || $_SESSION['position'] != "Giám đốc") {
       header('Location: index.php');
       exit();
   }
-  include 'room.php';
   $conn=open_database();
 ?>
 <!DOCTYPE html>
@@ -50,16 +50,19 @@
     <div class="row">
       <div class="col-md-3 card p-3">
         <h3 class="text-center" style="color:#8D4E85;">Thêm phòng ban</h3>
-        <form action="room.php" method="post" enctype="multipart/form-data" >
+        <form id="form-add-task" action="room.php" method="post" enctype="multipart/form-data" novalidate class="needs-validation">
           <input type="hidden" name="idpb" value="<?= $id; ?>">
           <div class="form-group">
             <input type="text" name="namepb" value="<?= $namepb; ?>" class="form-control" placeholder="Tên phòng ban" required>
+            <div class="invalid-feedback">Không được để trống</div>
           </div>
           <div class="form-group">
             <input type="text" name="description" value="<?= $description; ?>" class="form-control" placeholder="Mô tả" required>
+            <div class="invalid-feedback">Không được để trống</div>
           </div>
           <div class="form-group">
             <input type="text" name="numberRoom" value="<?= $numberRoom; ?>"  class="form-control" placeholder="Số phòng" required>
+            <div class="invalid-feedback">Không được để trống</div>
           </div>
           <div class="form-group">
             <?php if ($update == true) { ?>

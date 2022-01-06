@@ -1,4 +1,5 @@
 <?php
+	session_start(); 
 	include 'database.php';
 	$update=false;
 	$id="";
@@ -11,36 +12,34 @@
 	$address="";
 	$number="";
 	$position="";
-	if(isset($_POST['add'])){
-		$idpb=$_POST['idpb'];
-		$name=$_POST['name'];
-		$username=$_POST['username'];
-		$password=$_POST['password'];
-		$phone=$_POST['phone'];
-		$birthday=$_POST['birthday'];
-		$number=$_POST['number'];
-		$position="";
-		if(isset($_POST['position'])){
-			$position="Admin";
-			$idpb=NULL;
-		}
-		else{
-			$position="Nhân viên";
-		}
-		$photo=time().$_FILES['image']['name'];
-		$address=$_POST['address'];
-		$upload="uploads/".$photo;
-		$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
-		$conn=open_database();
-		$stmt=$conn->prepare($sql);
-		$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
-		$stmt->execute();
-		move_uploaded_file($_FILES['image']['tmp_name'], $upload);
-		header('location:user.php');
-		$_SESSION['response']="Congratulation! You added successfully";
-		$_SESSION['res_type']="success";
 
+	//Them nhan vien
+	if(isset($_POST['add'])){
+		if(isset($_POST['idpb']) && isset($_POST['username']) && isset($_POST['name'])){
+			$idpb=$_POST['idpb'];
+			$name=$_POST['name'];
+			$username=$_POST['username'];
+			$password = password_hash($username, PASSWORD_DEFAULT);
+			$phone=$_POST['phone'];
+			$birthday=$_POST['birthday'];
+			$position="Nhân viên";
+			$number = 12;
+			$photo=time().$_FILES['image']['name'];
+			$address=$_POST['address'];
+			$upload="uploads/".$photo;
+			$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
+			$conn=open_database();
+			$stmt=$conn->prepare($sql);
+			$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
+			$stmt->execute();
+			move_uploaded_file($_FILES['image']['tmp_name'], $upload);
+			header('location:user.php');
+			$_SESSION['response']="Thêm nhân viên thành công!";
+			$_SESSION['res_type']="success";
+		}
 	}
+
+	//click btn sua
 	if(isset($_GET['edit'])){
 		$id=$_GET['edit'];
 		$query="SELECT * FROM user WHERE id=?";
@@ -65,67 +64,69 @@
 		$update=true;
 	}
 
-
+	//Update nhan vien
 	if(isset($_POST['update'])){
-		$id=$_POST['id'];
-		$name=$_POST['name'];
-		$username=$_POST['username'];
-		$phone=$_POST['phone'];
-		$birthday=$_POST['birthday'];
-		$address=$_POST['address'];
-		$position=$_POST['position'];
-		//$idpb=$row['idpb'];
-		$idpb=$_POST['idpb'];
-		//$number=$_POST['number'];
-		$number=0;
-		if(isset($position)){
-			if ($position=="Nhân viên"){
-				$number=12;
+		if(isset($_POST['id'])){
+			$id=$_POST['id'];
+			$name=$_POST['name'];
+			$username=$_POST['username'];
+			$phone=$_POST['phone'];
+			$birthday=$_POST['birthday'];
+			$address=$_POST['address'];
+			$position=$_POST['position'];
+			$idpb=$_POST['idpb'];
+			$number=0;
+			if(isset($position)){
+				if ($position=="Nhân viên"){
+					$number=12;
+				}
+				if ($position=="Trưởng phòng"){
+					$number=15;
+				}
 			}
-			if ($position=="Trưởng phòng"){
-				$number=15;
+			$oldimage=$_POST['oldimage'];
+
+			if(isset($_FILES['image']['name'])&&($_FILES['image']['name']!="")){
+				$newimage=time().$_FILES['image']['name'];
+				$pathnewimage='uploads/'.time().$_FILES['image']['name'];
+				unlink($oldimage);//xoa link avt cu
+				move_uploaded_file($_FILES['image']['tmp_name'], $pathnewimage);
 			}
-		}
-		$oldimage=$_POST['oldimage'];
+			else{
+				$newimage=$oldimage;
+			}
+			$query="UPDATE user SET name=?,username=?,phone=?,birthday=?,avatar=?,address=?,position=?,idpb=?,numofdaysoff=? WHERE id=?";
+			$conn=open_database();
+			$stmt=$conn->prepare($query);
+			$stmt->bind_param("sssssssiii",$name,$username,$phone,$birthday,$newimage,$address,$position,$idpb, $number, $id);
+			$stmt->execute();
 
-		if(isset($_FILES['image']['name'])&&($_FILES['image']['name']!="")){
-			$newimage=time().$_FILES['image']['name'];
-			$pathnewimage='uploads/'.time().$_FILES['image']['name'];
-			unlink($oldimage);
-			move_uploaded_file($_FILES['image']['tmp_name'], $pathnewimage);
+			$_SESSION['response']="Bạn đã cập nhật thành công";
+			$_SESSION['res_type']="primary";
+			header('location:user.php');
 		}
-		else{
-			$newimage=$oldimage;
-		}
-		$query="UPDATE user SET name=?,username=?,phone=?,birthday=?,avatar=?,address=?,position=?,idpb=?,numofdaysoff=? WHERE id=?";
-		$conn=open_database();
-		$stmt=$conn->prepare($query);
-		$stmt->bind_param("sssssssiii",$name,$username,$phone,$birthday,$newimage,$address,$position,$idpb, $number, $id);
-		$stmt->execute();
-
-		$_SESSION['response']="Bạn đã cập nhật thành công";
-		$_SESSION['res_type']="primary";
-		header('location:user.php');
 	}
 
-
+	//doi mat khau
 	if(isset($_POST['resetpassword'])){
-		$id=$_POST['id'];
-		$username=$_POST['username'];
-		$hashed_password = password_hash($username, PASSWORD_DEFAULT);
-
-		$query="UPDATE user SET password=? WHERE id=?";
-		$conn=open_database();
-		$stmt=$conn->prepare($query);
-		$stmt->bind_param("si",$hashed_password,$id);
-		$stmt->execute();
-
-		$_SESSION['response']="Reset mật khẩu thành công";
-		$_SESSION['res_type']="primary";
-		header('location:user.php');
+		if (isset($_POST['id']) && isset($_POST['username'])){
+			$id=$_POST['id'];
+			$username=$_POST['username'];
+			$hashed_password = password_hash($username, PASSWORD_DEFAULT);
+	
+			$query="UPDATE user SET password=? WHERE id=?";
+			$conn=open_database();
+			$stmt=$conn->prepare($query);
+			$stmt->bind_param("si",$hashed_password,$id);
+			$stmt->execute();
+	
+			$_SESSION['response']="Reset mật khẩu thành công";
+			$_SESSION['res_type']="primary";
+			header('location:user.php');
+		}
 	}
 
-
+	//xem chi tiet nhan vien
 	if(isset($_GET['details'])){
 		$id=$_GET['details'];
 		$query="SELECT * FROM user WHERE id=?";

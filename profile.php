@@ -1,3 +1,4 @@
+
 <?php
     session_start();
     require_once('database.php');
@@ -13,6 +14,7 @@
         $row = $result->fetch_assoc();
         $uid = $row['id'];
         $uname = $row['name'];
+        $uusername = $row['username'];
         $ugender = $row['gender'];
         $upassword = $row['password'];
 
@@ -93,8 +95,9 @@
     }
 ?>
 
+
     <?php
-    if(isset($_POST['updateProfile2'])){
+    if(isset($_POST['updateAvatar'])){
         $Dir = "uploads/";
         $file = $_FILES['file']['name'];
 
@@ -115,9 +118,13 @@
                 if($uavatar!=null){
                     unlink("uploads/".$uavatar);
                 }
+                $_SESSION['response']="Cập nhật ảnh đại diện thành công!";
+                $_SESSION['res_type']="success";
                 echo("<meta http-equiv='refresh' content='0'>");
             } else {
-                    echo "Error updating record: " . $conn->error;
+                $_SESSION['response']="Cập nhật ảnh đại diện thất bại!".$conn->error;
+                $_SESSION['res_type']="danger";
+                echo("<meta http-equiv='refresh' content='0'>");
             }
         }   
     } 
@@ -138,7 +145,7 @@
 
 
 </head>
-<body> 
+<body>       
     <!-- header -->
     <?php include 'header_nosearch.php' ?>
     <div class="container profile-container hscroll">
@@ -158,6 +165,21 @@
                 </div>
             </div>
         </div>
+        <div class="bg-danger" id="testhide">
+            ấdfadsdfsfsfdfsfsf
+                </div>
+
+        <?php 
+            if (isset($_SESSION['response'])) { 
+            ?>
+                <div id="testhide" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <b><?= $_SESSION['response']; ?></b>
+                </div>
+            <?php 
+            } 
+            unset($_SESSION['response']); 
+        ?>
 
         <div class="row p-5">
         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -249,6 +271,10 @@
                 <div class="card card-pf p-2 mb-4">
                     <h5 class="card-info-label">Thông tin cá nhân</h5>
                     <div class="d-flex row-info">
+                        <label class="info-label col-3"> MÃ NHÂN VIÊN </label>
+                        <div class="info-content col-9"><?=$iduser?></div>
+                    </div>
+                    <div class="d-flex row-info">
                         <label class="info-label col-3"> HỌ TÊN </label>
                         <div class="info-content col-9"><?=$uname?></div>
                     </div>
@@ -300,8 +326,6 @@
 
         <?php
             if(isset($_POST['updateProfile'])){
-                echo 'yeah';
-                $sName = $_POST['fullname'];
                 $sGender = $_POST['gender'];
                 $sBirthday = $_POST['birthday'];
                 $sIdentityCard = $_POST['identityCard'];
@@ -309,18 +333,22 @@
                 $sEmail = $_POST['email'];
                 $sAddress = $_POST['address'];
 
-                $sql = "UPDATE user SET name='$sName', phone='$sPhone', birthday='$sBirthday', cmnd='$sIdentityCard', email = '$sEmail',
-                        address='$sAddress', gender = $sGender 
-                        WHERE id=$iduser";
+                // $sql = "UPDATE user SET phone='$sPhone', birthday='$sBirthday', cmnd='$sIdentityCard', email = '$sEmail',
+                //         address='$sAddress', gender = $sGender 
+                //         WHERE id=$iduser";
+
+                $sql = "UPDATE user SET phone=?, birthday=?, cmnd=?, email = ?, address=?, gender = ? WHERE id=?";
+                $stmt=$conn->prepare($sql);
+                $stmt->bind_param("issssii",$sPhone,$sBirthday,$sIdentityCard,$sEmail,$sAddress,$sGender,$iduser);
                     
-                if ($conn->query($sql) === FALSE) {
-                    echo "Error updating record: " . $conn->error;
-                }else{
-                    if ($conn->query($sql) === TRUE) {
-                        echo("<meta http-equiv='refresh' content='0'>");
-                    } else {
-                        echo "Error updating record: " . $conn->error;
-                    }
+                if ($stmt->execute() === TRUE) {
+                    $_SESSION['response']="Cập nhật thông tin thành công!";
+                    $_SESSION['res_type']="success";
+                    echo("<meta http-equiv='refresh' content='0'>");
+                } else {
+                    $_SESSION['response']="Cập nhật thông tin thất bại!";
+                    $_SESSION['res_type']="danger";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 }
             }
         ?>
@@ -336,10 +364,6 @@
                         <!--  -->
                             <form method="POST" novalidate>
                                <div class="">
-                                    <div class="form-group col-12" > 
-                                        <label >Họ tên</label>
-                                        <input value="<?=$uname?>" type="text" class="form-control " name="fullname" placeholder="Họ tên" require>    
-                                    </div>
                                     <div class="form-group col-12">
                                         <label>Giới tính</label>
                                         <div>
@@ -414,7 +438,7 @@
                                             <div id="fileList"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" name="updateProfile2" class="btn btn-primary">Lưu</button>
+                                            <button type="submit" name="updateAvatar" class="btn btn-primary">Lưu</button>
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                                         </div>
                                 </div>
@@ -429,28 +453,33 @@
         </div>                                        
 
     <?php
-            if(isset($_POST['resetPassword'])){
-                $soldpass = $_POST['oldpass'];
-                $snewpass = $_POST['newpass'];
-                $snewpass2 = $_POST['newpass2'];
+        if(isset($_POST['resetPassword'])){
+            $soldpass = $_POST['oldpass'];
+            $snewpass = $_POST['newpass'];
+            $snewpass2 = $_POST['newpass2'];
                 
-                if (isset($soldpass) && isset($snewpass) && isset($snewpass2)){
-                    if(password_verify($soldpass, $upassword) && $snewpass==$snewpass2 ) {
-                        $hashed_password = password_hash($snewpass, PASSWORD_DEFAULT);
-                        $sql = "UPDATE user SET password='$hashed_password'
-                            WHERE id='$iduser'";
+            if (isset($soldpass) && isset($snewpass) && isset($snewpass2)){
+                if(password_verify($soldpass, $upassword) && $snewpass==$snewpass2 ) {
+                    $hashed_password = password_hash($snewpass, PASSWORD_DEFAULT);
+                    $sql = "UPDATE user SET password='$hashed_password'
+                        WHERE id='$iduser'";
                     if ($conn->query($sql) === FALSE) {
                         echo "Error updating record: " . $conn->error;
                     }else{
                         if ($conn->query($sql) === TRUE) {
-                            //echo("<meta http-equiv='refresh' content='0'>");
-                            echo 'doi mat khau thanh congggggg!';
+                            //echo 'doi mat khau thanh congggggg!';
+                            $_SESSION['response']="Đổi mật khẩu thành công!";
+                            $_SESSION['res_type']="success";
+                            echo("<meta http-equiv='refresh' content='0'>");
                         } else {
                             echo "Error updating record: " . $conn->error;
                         }
                     }
                 } else{
-                    echo 'doi mat khau that baiiiiiiiiiiiiiiiiiiiiiii';
+                    //echo 'doi mat khau that baiiiiiiiiiiiiiiiiiiiiiii';
+                    $_SESSION['response']="Đổi mật khẩu thất bại!";
+                    $_SESSION['res_type']="danger";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 }
             }
         }
@@ -498,8 +527,6 @@
     </div>          
     
 
-
-
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -507,5 +534,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="./main.js?v=1"></script>
+
 </body>
 </html>
