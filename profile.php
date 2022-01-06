@@ -140,9 +140,7 @@
 </head>
 <body> 
     <!-- header -->
-    <?php include 'header.php' ?>
-
-
+    <?php include 'header_nosearch.php' ?>
     <div class="container profile-container hscroll">
         <div class="row">
             <img  src="images/bia.jpg" alt="" class="anhbia">

@@ -178,8 +178,8 @@ input:focus::placeholder {
     background: rgb(236, 236, 236);
 }
 .hsidebar-filter-active{
-    background: rgb(255, 225, 225);
-    color: #d93025;
+    background: #E9DCE5;
+    color: #8D4E85;
     font-weight: bold;
     
 }

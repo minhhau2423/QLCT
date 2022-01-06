@@ -30,7 +30,7 @@
 
 <body>  
     <!-- header -->
-    <?php include 'header.php' ?>
+    <?php include 'header_nosearch.php' ?>
       <div class="container">
 
         <div class="row justify-content-center">

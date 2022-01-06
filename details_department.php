@@ -30,7 +30,7 @@
 
 <body>
     <!-- header -->
-    <?php include 'header.php' ?>
+    <?php include 'header_nosearch.php' ?>
     
     <div class="container ">
     <?php
@@ -45,9 +45,6 @@
                         <td><span>ID: </span><?=$row2['idpb'];?></td>
                         <td><span>SỐ:</span> <?=$row2['numberRoom'];?></td>
                         <td><?=$row2['description'];?><td>
-                    </tr>
-                    <tr>
-                        
                     </tr>
                 </table>
                 <?php
