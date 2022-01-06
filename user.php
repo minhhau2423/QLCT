@@ -107,7 +107,7 @@
           <br>
           <br>
           <div class="form-group">
-            <input type="text" name="position" value="<?= $position; ?>" class="form-control" placeholder="Chức vụ" required>
+            <input type="text" name="position" value="<?= $position; ?>" class="form-control" placeholder="Chức vụ" readonly>
           </div>
           <div class="form-group">
             <input type="number" name="number" value="<?= $number; ?>" class="form-control" placeholder="Số ngày nghỉ" readonly>

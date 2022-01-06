@@ -33,7 +33,29 @@
     <?php include 'header.php' ?>
     
     <div class="container ">
-        <div class="row justify-content-center p-5">
+    <?php
+        if($result2->num_rows>0)
+        { 
+            while($row2=$result2->fetch_assoc()) {
+                ?>
+                <table class="table">
+                    <tr style="text-align: center; vertical-align:middle;">
+                        <td colspan=3><h3 class="font-weight-bold" style="color:#8D4E85; text-transform: uppercase;">PHÒNG <?=$row2['namepb'];?></h3></td></tr>
+                    <tr>
+                        <td><span>ID: </span><?=$row2['idpb'];?></td>
+                        <td><span>SỐ:</span> <?=$row2['numberRoom'];?></td>
+                        <td><?=$row2['description'];?><td>
+                    </tr>
+                    <tr>
+                        
+                    </tr>
+                </table>
+                <?php
+            }
+        }
+    ?>
+
+        <div class="row justify-content-center mt-2">
             <table class="table" style="text-align: center; vertical-align:middle;">
                 <thead style="color:#8D4E85; background-color:#E9DCE5;">
                     <tr>

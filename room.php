@@ -46,7 +46,7 @@
 		$query="UPDATE department SET namepb=?,description=?,numberRoom=? WHERE idpb=?";
 		$conn=open_database();
 		$stmt=$conn->prepare($query);
-		$stmt->bind_param("ssii",$namepb,$description,$numberRoom, $idpb);
+		$stmt->bind_param("sssi",$namepb,$description,$numberRoom, $idpb);
 		$stmt->execute();
 		$_SESSION['response']="Bạn đã cập nhật thành công";
 		$_SESSION['res_type']="primary";
@@ -60,6 +60,13 @@
 		$stmt->bind_param("i",$idpb);
 		$stmt->execute();
 		$result=$stmt->get_result();
+
+		//get phong ban hien tai
+		$query2= "SELECT * FROM department WHERE idpb=?";
+		$stmt2= $conn->prepare($query2);
+		$stmt2->bind_param("i",$idpb);
+		$stmt2->execute();
+		$result2=$stmt2->get_result();
 	}
 
     if(isset($_POST['update_details'])){
