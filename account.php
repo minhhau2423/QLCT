@@ -27,11 +27,13 @@
 			$photo=time().$_FILES['image']['name'];
 			$address=$_POST['address'];
 			$upload="uploads/".$photo;
+
 			$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
 			$conn=open_database();
 			$stmt=$conn->prepare($sql);
 			$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
 			$stmt->execute();
+			
 			move_uploaded_file($_FILES['image']['tmp_name'], $upload);
 			header('location:user.php');
 			$_SESSION['response']="Thêm nhân viên thành công!";
@@ -50,6 +52,7 @@
 		$result=$stmt->get_result();
 		$row=$result->fetch_assoc();
 
+		//du lieu hien thi ra view
 		$id=$row['id'];
 		$name=$row['name'];
 		$username=$row['username'];
@@ -137,6 +140,16 @@
 		$result=$stmt->get_result();
 		$row=$result->fetch_assoc();
 
+		//get thong tin phong ban hien tai
+		$query2= "SELECT * FROM department WHERE idpb=?";
+		$stmt2= $conn->prepare($query2);
+		$stmt2->bind_param("i",$row['idpb']);
+		$stmt2->execute();
+		$result2=$stmt2->get_result();
+		$row2=$result2->fetch_assoc();
+
+		//du lieu de hien thi ra view
+		$vpb=$row2['namepb'];
 		$vid=$row['id'];
 		$vname=$row['name'];
 		$vusername=$row['username'];

@@ -165,14 +165,11 @@
                 </div>
             </div>
         </div>
-        <div class="bg-danger" id="testhide">
-            ấdfadsdfsfsfdfsfsf
-                </div>
-
+        <!-- thong bao alert -->
         <?php 
             if (isset($_SESSION['response'])) { 
             ?>
-                <div id="testhide" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                <div id="testhidez" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <b><?= $_SESSION['response']; ?></b>
                 </div>
@@ -332,10 +329,6 @@
                 $sPhone = $_POST['phone'];
                 $sEmail = $_POST['email'];
                 $sAddress = $_POST['address'];
-
-                // $sql = "UPDATE user SET phone='$sPhone', birthday='$sBirthday', cmnd='$sIdentityCard', email = '$sEmail',
-                //         address='$sAddress', gender = $sGender 
-                //         WHERE id=$iduser";
 
                 $sql = "UPDATE user SET phone=?, birthday=?, cmnd=?, email = ?, address=?, gender = ? WHERE id=?";
                 $stmt=$conn->prepare($sql);
@@ -526,14 +519,11 @@
         </div>
     </div>          
     
-
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="./main.js?v=1"></script>
-
 </body>
 </html>
