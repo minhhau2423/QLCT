@@ -118,8 +118,8 @@
                 if($uavatar!=null){
                     unlink("uploads/".$uavatar);
                 }
-                $_SESSION['response']="Cập nhật ảnh đại diện thành công!";
-                $_SESSION['res_type']="success";
+                // $_SESSION['response']="Cập nhật ảnh đại diện thành công!";
+                // $_SESSION['res_type']="success";
                 echo("<meta http-equiv='refresh' content='0'>");
             } else {
                 $_SESSION['response']="Cập nhật ảnh đại diện thất bại!".$conn->error;

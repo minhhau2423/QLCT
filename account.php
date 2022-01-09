@@ -12,6 +12,7 @@
 	$address="";
 	$number="";
 	$position="";
+	$idpb="";
 
 	//Them nhan vien
 	if(isset($_POST['add'])){
@@ -28,16 +29,31 @@
 			$address=$_POST['address'];
 			$upload="uploads/".$photo;
 
-			$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
 			$conn=open_database();
-			$stmt=$conn->prepare($sql);
-			$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
-			$stmt->execute();
+			$sqlcheck = "SELECT * FROM user WHERE username=?";
+			$stmtcheck = $conn->prepare($sqlcheck);
+			$stmtcheck->bind_param("s",$username);
+			$stmtcheck->execute();
+			$resultcheck=$stmtcheck->get_result();
+			if ($resultcheck->num_rows==0){
+				$sql="INSERT INTO user(name,username,password,phone,birthday,avatar,address,position,idpb,numofdaysoff)VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+				$stmt=$conn->prepare($sql);
+				$stmt->bind_param("ssssssssii",$name,$username,$password,$phone,$birthday,$photo,$address,$position,$idpb,$number);
+				$stmt->execute();
+				
+				move_uploaded_file($_FILES['image']['tmp_name'], $upload);
+				header('location:user.php');
+				$_SESSION['response']="Thêm nhân viên thành công!";
+				$_SESSION['res_type']="success";
+			}
+			else {
+				header('location:user.php');
+				$_SESSION['response']="Username ".$username." đã tồn tại, sử dụng ô tìm kiếm để kiểm tra trước!";
+				$_SESSION['res_type']="danger";
+			}
+
 			
-			move_uploaded_file($_FILES['image']['tmp_name'], $upload);
-			header('location:user.php');
-			$_SESSION['response']="Thêm nhân viên thành công!";
-			$_SESSION['res_type']="success";
 		}
 	}
 

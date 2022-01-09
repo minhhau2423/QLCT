@@ -12,8 +12,8 @@ if (!isset($_SESSION['username']) || $_SESSION['position'] != "Trưởng phòng"
 require_once('database.php');
 $conn = open_database();
 
-$phongban = '1';/* idpb */
-$truongphong = '1';/* idtp */
+$phongban = $_SESSION['idpb'];
+$truongphong = $_SESSION['id'];
 $lastdate = "0000-00-00";
 $idtask = $_GET['id'];
 ?>
@@ -36,6 +36,19 @@ $idtask = $_GET['id'];
 <body>
     <!-- header -->
     <?php include 'header.php' ?>
+
+    <!-- thong bao alert -->
+    <?php 
+        if (isset($_SESSION['response'])) { 
+        ?>
+            <div id="testhide" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <b><?= $_SESSION['response']; ?></b>
+            </div>
+        <?php 
+        } 
+        unset($_SESSION['response']); 
+    ?>
 
     <?php
     $err_mess = "";
@@ -236,9 +249,13 @@ $idtask = $_GET['id'];
             } else {
                 $sql = "UPDATE task SET status='rejected' WHERE idtask=$idtask";
                 if ($conn->query($sql) === TRUE) {
-                    echo ("<meta http-equiv='refresh' content='0'>");
+                    $_SESSION['response']="Yêu cầu làm lại đã được gửi thành công!";
+                    $_SESSION['res_type']="success";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 } else {
-                    echo "Error updating record: " . $conn->error;
+                    $_SESSION['response']="Yêu cầu làm lại đã được gửi thất bại!";
+                    $_SESSION['res_type']="success";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 }
             }
         }
@@ -330,7 +347,7 @@ $idtask = $_GET['id'];
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="submit-reject">Gửi</button>
+                            <button id="btn_tao" type="submit" class="btn btn-primary" name="submit-reject">Gửi</button>
                         </div>
                     </form>
                 </div>

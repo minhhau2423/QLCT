@@ -80,20 +80,46 @@
 		$result2=$stmt2->get_result();
 	}
 
+	//click btn bo nhiem, lay thong tin
     if(isset($_POST['update_details'])){
-		$id=$_POST['id_click'];
-		$idpb=$_POST['id_click_pb'];
-		$sql="UPDATE user SET position='Nhân viên',numofdaysoff=12 WHERE user.idpb = $idpb";
-		$conn=open_database();
-		$query=$conn->query($sql);
+		if (isset($_POST['id_click']) && isset($_POST['id_click_pb'])){
+			$id=$_POST['id_click'];
+			$idpb=$_POST['id_click_pb'];
+			$conn=open_database();
+			$query2= "SELECT * FROM user WHERE id=?";
+			$stmt2= $conn->prepare($query2);
+			$stmt2->bind_param("i",$id);
+			$stmt2->execute();
+			$result2=$stmt2->get_result();
+			$row2=$result2->fetch_assoc();
+			$_SESSION['nametp'] = $row2['name'];
+			$_SESSION['idphongban'] = $row2['idpb'];
+			$_SESSION['idtruongphong'] = $row2['id'];
+			header("location:details_department.php?details_department=$idpb");
+		}
+	}
 
-		$position="Trưởng phòng";
-		$query="UPDATE user SET position=?, numofdaysoff=15 WHERE id=?";
-		$stmt=$conn->prepare($query);
-		$stmt->bind_param("si",$position, $id);
-		$stmt->execute();
-		$_SESSION['response']="Bạn đã cập nhật Trưởng Phòng Thành công";
-		$_SESSION['res_type']="primary";
-		header("location:details_department.php?details_department=$idpb");
+	if(isset($_POST['set_truongphong'])){
+		if (isset($_POST['id_click']) && isset($_POST['id_click_pb'])){
+			$id=$_POST['id_click'];
+			$idpb=$_POST['id_click_pb'];
+
+			unset($_SESSION['nametp']);
+			unset($_SESSION['idphongban']);
+			unset($_SESSION['idtruongphong']);
+
+			$sql="UPDATE user SET position='Nhân viên',numofdaysoff=12 WHERE user.idpb = $idpb";
+			$conn=open_database();
+			$query=$conn->query($sql);
+
+			$position="Trưởng phòng";
+			$query="UPDATE user SET position=?, numofdaysoff=15 WHERE id=?";
+			$stmt=$conn->prepare($query);
+			$stmt->bind_param("si",$position, $id);
+			$stmt->execute();
+			$_SESSION['response']="Bạn đã cập nhật Trưởng Phòng Thành công";
+			$_SESSION['res_type']="primary";
+			header("location:details_department.php?details_department=$idpb");
+		}
 	}
 ?>

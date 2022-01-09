@@ -31,7 +31,6 @@
                             }
                         ?>
                         class="rounded-circle" height="32" width="32"
-                        alt="Avatar"
                         style="object-fit:cover;"
                         loading="lazy" />
                         </li>

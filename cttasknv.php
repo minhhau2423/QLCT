@@ -36,6 +36,18 @@ $idtask = $_GET['id'];
     <!-- header -->
     <?php include 'header.php' ?>
 
+    <!-- thong bao alert -->
+    <?php 
+        if (isset($_SESSION['response'])) { 
+        ?>
+            <div id="testhide" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <b><?= $_SESSION['response']; ?></b>
+            </div>
+        <?php 
+        } 
+        unset($_SESSION['response']); 
+    ?>
     <?php
     $err_mess = "";
     if (isset($_POST['inprogress'])) {
@@ -223,9 +235,14 @@ $idtask = $_GET['id'];
             } else {
                 $sql = "UPDATE task SET status='waiting' WHERE idtask=$idtask";
                 if ($conn->query($sql) === TRUE) {
-                    echo ("<meta http-equiv='refresh' content='0'>");
+                    $_SESSION['response']="Nộp task thành công!";
+                    $_SESSION['res_type']="success";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 } else {
                     echo "Error updating record: " . $conn->error;
+                    $_SESSION['response']="Nộp task thất bại!";
+                    $_SESSION['res_type']="danger";
+                    echo("<meta http-equiv='refresh' content='0'>");
                 }
             }
         }
@@ -269,7 +286,7 @@ $idtask = $_GET['id'];
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="waiting">Gửi</button>
+                            <button id="btn_tao" type="submit" class="btn btn-primary" name="waiting">Gửi</button>
                         </div>
                     </form>
                 </div>

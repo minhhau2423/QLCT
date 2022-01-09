@@ -8,6 +8,7 @@
         header('Location: index.php');
         exit();
     }
+    //echo $_SESSION['nametp'];
 
 ?>
 <!DOCTYPE html>
@@ -19,19 +20,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Details User</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- cdn bs4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <!-- jQuery library -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" />
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header_nosearch.php' ?>
-    
+    <?php include 'header_nosearch.php' ?>    
+    <?php if (isset($_SESSION['response'])) { ?>
+        <div class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <b><?= $_SESSION['response']; ?></b>
+        </div>
+        <?php } unset($_SESSION['response']); ?>
     <div class="container ">
     <?php
         if($result2->num_rows>0)
@@ -51,9 +57,7 @@
             }
         }
     ?>
-
-        <div class="row justify-content-center mt-2">
-            <table class="table" style="text-align: center; vertical-align:middle;">
+            <table class="table table-hover" style="text-align: center;" id="data-table">
                 <thead style="color:#8D4E85; background-color:#E9DCE5;">
                     <tr>
                         <th>Id</th>
@@ -97,13 +101,48 @@
               ?>
                 </tbody>
             </table>
-        </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script type="text/javascript" src="./main.js?v=1"></script>
+  <?php 
+    if (isset($_SESSION['idtruongphong']) && isset($_SESSION['idphongban']) && isset($_SESSION['nametp'])){
+      ?>
+        <!-- Modal -->
+        <div class="modal fade" id="confirmTruongPhong" role="dialog">   
+          <form action="room.php" method="post">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">         
+                <h4 class="modal-title">Chọn trưởng phòng</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p>Bạn có muốn chọn "<?=$_SESSION['nametp']?>" làm trưởng phòng?</p>
+                <input hidden type="number" name="id_click" value=<?=$_SESSION['idtruongphong']?>>
+                <input hidden type="number" name="id_click_pb" value=<?=$_SESSION['idphongban']?>>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="submit" name="set_truongphong" class="btn btn-info">Đồng ý</button>
+              </div>
+            </div> 
+          </div>
+          </form>
+        </div>
+      <?php
+    }
+  ?>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+  <script type="text/javascript" src="./main.js?v=1"></script>
+
+    <script>
+
+    </script>
 
 </body>
 

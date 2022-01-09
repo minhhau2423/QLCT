@@ -13,7 +13,7 @@
       exit();
   }
   $_SESSION['position'];
-  $idpb="";
+  //$idpb="";
   $conn=open_database();
 ?>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@
           </div>
           <div class="form-group">
           <select  class="custom-select" style="height: auto;"  id="selectnv" name="idpb" required >
-              <!-- <option selected disabled>--Chọn Phòng Ban--</option> -->
+              <option value="" selected disabled>--Chọn Phòng Ban--</option>
               <?php  
                   $sql = "SELECT * FROM department";      
                   $result = $conn->query($sql);
@@ -109,7 +109,7 @@
           </div>
           <div class="form-group">
             <?php if ($update == true) { ?>
-              <input type="submit" name="resetpassword" class="btn" style="border: none; background-color:#E9DCE5; color:#8D4E85; margin-bottom:20px; float:right;" value="Reset mật khẩu">
+              <input data-target="#confirmModal" data-toggle="modal" type="button" class="btn" style="border: none; background-color:#E9DCE5; color:#8D4E85; margin-bottom:20px; float:right;" value="Reset mật khẩu">
             <input type="submit" name="update" class="btn btn-block" style="border: none; background-color:#8D4E85; color:white;" value="Lưu">
             <?php } else { ?>
             <input type="submit" name="add" class="btn btn-block" style="border: none; background-color:#8D4E85; color:#E9DCE5;" value="Thêm">
@@ -132,6 +132,7 @@
               <th>Id</th>
               <th>Avatar</th>
               <th>Họ tên</th>
+              <th>Username</th>
               <th>Số điện thoại</th>
               <th>Chức vụ</th>
               <th>Phòng Ban</th>
@@ -144,6 +145,7 @@
               <td><?= $row['id']; ?></td>
               <td><img src="uploads/<?=$row['avatar'];?>" width="50px" height="50px" style="object-fit:cover;"></td>
               <td><?= $row['name']; ?></td>
+              <td><?= $row['username']; ?></td>
               <td><?= $row['phone']; ?></td>
               <td><?= $row['position']; ?></td>
               <td><?= $row['namepb']; ?></td>
@@ -158,6 +160,32 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmModal" role="dialog">   
+    <form action="account.php" method="post">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">         
+          <h4 class="modal-title">Reset mật khẩu</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có muốn reset mật khẩu nhân viên "<?=$name?>" về mặt định</p>
+          <input hidden type="number" name="id" value=<?=$id?>>
+          <input hidden type="text" name="username" value=<?=$username?>>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+          <button type="submit" name="resetpassword" class="btn btn-info">Đồng ý</button>
+        </div>
+      </div> 
+    </div>
+    </form>
+  </div>
+
+
   <!-- Popper JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>

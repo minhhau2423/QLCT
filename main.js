@@ -204,3 +204,14 @@ $(document).ready(function() {
 
 //hide alert
 $('.alert').delay(3000).fadeOut('slow');
+
+//Chống dubble click;
+$("#btn_tao").click(function(){
+    $("#btn_tao").hide();
+    $("#btn_tao").delay(500).fadeIn(500);
+});
+
+//modal confirm truong phong
+$(document).ready(function(){
+    $("#confirmTruongPhong").modal('show');
+});

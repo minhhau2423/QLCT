@@ -210,7 +210,7 @@ $truongphong = $_SESSION['id'];
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary" name="submit">Tạo</button>
+                            <button id="btn_tao" type="submit" class="btn btn-primary" name="submit">Tạo</button>
                         </div>
                     </form>
                 </div>
@@ -223,7 +223,6 @@ $truongphong = $_SESSION['id'];
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="./main.js?v=1"></script>
-
 
 </body>
 
