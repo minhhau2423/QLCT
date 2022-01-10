@@ -191,7 +191,9 @@ $nhanvien =  $_SESSION['id'];
                         </div>
                         <div class="form-group">
                             <label for="">Tệp đính kèm</label>
-                            <input type="file" class=" custom-file-input" id="filepost" multiple hidden name="filedelivered[]" onchange="updateList()">
+                            <input type="file" class=" custom-file-input" id="filepost" 
+                                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar"
+                                multiple hidden name="filedelivered[]" onchange="updateList()">
                             <label for="filepost" class="btn btn-primary btn-sm form-control">
                                 <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
                             </label>

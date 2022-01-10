@@ -12,6 +12,7 @@
     $conn = open_database();
     $idtp = $_SESSION['id'];
     $idpb =  $_SESSION['idpb'];
+    $p = $_SESSION['position'];
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +51,27 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="32" alt="Avatar" loading="lazy" />
+                            <a href="./profile.php">
+                                <img
+                                <?php
+                                    $p = $_SESSION['position'];
+                                    $sql = "SELECT * FROM user WHERE position ='$p'";
+                                    $tmp=$conn->query($sql);
+                                    if ($tmp->num_rows > 0) {
+                                        $us = $tmp->fetch_assoc();
+                                    }
+                                    if($us['avatar']!=null){
+                                        $avt = $us['avatar'];
+                                        echo "src='uploads/$avt'";
+                                    }else{
+                                        $tmp='avt_tmp.jpg';
+                                        echo "src='images/$tmp'";
+                                    }
+                                ?>
+                                class="rounded-circle" height="32" width="32"
+                                style="object-fit:cover;"
+                                loading="lazy" />
+                            </a>
                         </li>
                         <li class="nav-item">
                             <button  onclick="location.href='logout.php'">
@@ -141,8 +162,8 @@
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="main.js?v=1"></script>
 </body>

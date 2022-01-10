@@ -215,3 +215,8 @@ $("#btn_tao").click(function(){
 $(document).ready(function(){
     $("#confirmTruongPhong").modal('show');
 });
+
+
+// To style only selects with the my-select class
+$('.my-select').selectpicker();
+

@@ -30,6 +30,8 @@ $truongphong = $_SESSION['id'];
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
 </head>
 
 <body>
@@ -162,8 +164,8 @@ $truongphong = $_SESSION['id'];
                     <form action="" method="POST" class="needs-validation" id="form-add-task" enctype="multipart/form-data" novalidate>
                         <div class="form-group">
                             <label for="">Nhân viên</label>
-                            <select class="custom-select" style="height: auto;" id="selectnv" name="idnv" required>
-                                <option value="" selected disabled>--Chọn nhân viên--</option>
+                            <select class="selectpicker" data-live-search="true" style="height: auto;" id="selectnv" name="idnv" required>
+                                <option value="" selected disabled>--Chưa chọn nhân viên--</option>
                                 <?php
                                 $sql = "SELECT * FROM user WHERE idpb=" . $phongban . " AND id!=" . $truongphong . "";
                                 $result = $conn->query($sql);
@@ -201,7 +203,9 @@ $truongphong = $_SESSION['id'];
                         </div>
                         <div class="form-group">
                             <label for="">Tệp đính kèm</label>
-                            <input type="file" class=" custom-file-input" id="filepost" multiple hidden name="filedelivered[]" onchange="updateList()">
+                            <input type="file" class=" custom-file-input" id="filepost"
+                                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar"
+                                    multiple hidden name="filedelivered[]" onchange="updateList()">
                             <label for="filepost" class="btn btn-primary btn-sm form-control">
                                 <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
                             </label>
@@ -222,6 +226,14 @@ $truongphong = $_SESSION['id'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    
+    
+        <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+
     <script type="text/javascript" src="./main.js?v=1"></script>
 
 </body>

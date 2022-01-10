@@ -424,7 +424,9 @@
                                 <div class="">
                                     <div class="form-group col-12">
                                             <label for="" >Thêm ảnh đại diện</label>
-                                            <input type="file" class=" custom-file-input" id="filepost" accept="image/*" hidden name="file" onchange="updateList()">
+                                            <input type="file" class=" custom-file-input" 
+                                                accept="image/*"
+                                                id="filepost" accept="image/*" hidden name="file" onchange="updateList()">
                                             <label for="filepost" class="btn btn-primary btn-sm form-control" >
                                                 <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>
                                             </label>
