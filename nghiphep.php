@@ -199,7 +199,16 @@
                     <form action="" method="POST" class="needs-validation" enctype="multipart/form-data" id="form-add-task" novalidate>
                         <div class="form-group">
                             <label for="">Số ngày nghỉ</label>
-                            <input type="number" class="form-control" name="numberdayoff" min='1' max='12' required> <!-- max = còn lại -->
+                            <select name="numberdayoff" id="munberdayoff" class="form-control" required>
+                                <?php
+                                    for($i=1;$i<=$num - $numoff;$i++){
+                                     ?>
+                                     <option value='<?=$i?>'><?=$i?> ngày</option>
+                                <?php   
+                                    }
+                                ?>
+                                
+                            </select>
                             <div class="invalid-feedback">
                                 Chưa nhập số ngày nghỉ
                             </div>

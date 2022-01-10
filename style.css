@@ -211,7 +211,7 @@ input:focus::placeholder {
     border-radius: 20px;
     box-shadow: 1px 1px 5px 1px #b8b6b6;
     border-radius: 24px;
-    color: #d93025;
+    color: #8D4E85;
     height: 48px;
     display: flex;
     justify-content: center;
@@ -642,5 +642,3 @@ strong{
 body{
     overflow-x: hidden;
 }
-
-

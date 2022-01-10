@@ -46,7 +46,7 @@
             }
         }
         if(isset($_POST['tuchoi'])){
-            $sql = "UPDATE dayoff SET status='refused',daterep=$currentDate WHERE id=$idyeucau";
+            $sql = "UPDATE dayoff SET status='refused',daterep='$currentDate' WHERE id=$idyeucau";
             if ($conn->query($sql) === TRUE) {
                 echo("<meta http-equiv='refresh' content='0'>");
             } else {

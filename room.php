@@ -15,14 +15,27 @@
 			$numberRoom=$_POST['numberRoom'];
 			if(isset($_POST['add']))
 			{
-				$sql="INSERT INTO department(namepb,description,numberRoom)VALUES(?,?,?)";
 				$conn=open_database();
-				$stmt=$conn->prepare($sql);
-				$stmt->bind_param("sss",$namepb,$description,$numberRoom);
-				$stmt->execute();
-				header('location:department.php');
-				$_SESSION['response']="Bạn đã thêm phòng ban thành công";
-				$_SESSION['res_type']="success";
+				$sqlcheck = "SELECT * FROM department WHERE namepb=?";
+				$stmtcheck = $conn->prepare($sqlcheck);
+				$stmtcheck->bind_param("s",$namepb);
+				$stmtcheck->execute();
+				$resultcheck=$stmtcheck->get_result();
+				if ($resultcheck->num_rows==0){
+					$sql="INSERT INTO department(namepb,description,numberRoom)VALUES(?,?,?)";
+					$conn=open_database();
+					$stmt=$conn->prepare($sql);
+					$stmt->bind_param("sss",$namepb,$description,$numberRoom);
+					$stmt->execute();
+					header('location:department.php');
+					$_SESSION['response']="Bạn đã thêm phòng ban thành công";
+					$_SESSION['res_type']="success";
+				}
+				else {
+					header('location:user.php');
+					$_SESSION['response']="Tên phòng ban ".$namepb." đã tồn tại, sử dụng ô tìm kiếm để kiểm tra trước!";
+					$_SESSION['res_type']="danger";
+				}
 			}
 		}
     }

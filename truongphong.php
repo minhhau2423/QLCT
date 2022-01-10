@@ -58,14 +58,14 @@ $truongphong = $_SESSION['id'];
             <div class="col-12 col-sm-8 col-md-9 col-lg-10">
                 <!-- thong bao alert -->
                 <?php 
-                    if (isset($_SESSION['response'])) { 
+                   if (isset($_SESSION['response'])) { 
                     ?>
                         <div id="testhide" class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <b><?= $_SESSION['response']; ?></b>
                         </div>
                     <?php 
-                    } 
+                   } 
                     unset($_SESSION['response']); 
                 ?>
                 <div id="list" class="hscroll">
@@ -131,19 +131,15 @@ $truongphong = $_SESSION['id'];
                 }
                 $fileName = implode(",", $newName);
             }
-            $sql = "INSERT INTO  task (idnv,idtp,status,content,title,deadline,filedelivered) 
-            VALUES ('" . $_POST['idnv'] . "','" . $truongphong . "','new','" . $_POST['content'] . "','" . $_POST['title'] . "','" . $_POST['deadline'] . "','" . $fileName . "')";
-
-            if ($conn->query($sql) === FALSE) {
-                $mess = "Thêm không thành công";
-                $_SESSION['response']="Thêm task thất bại!";
-                $_SESSION['res_type']="danger";
-                echo("<meta http-equiv='refresh' content='0'>");
-            } else {
-                $_SESSION['response']="Thêm task thành công!";
-                $_SESSION['res_type']="success";
-                echo("<meta http-equiv='refresh' content='0'>");
-            }
+            $st='new';
+            $sql = "INSERT INTO task (idnv,idtp,status,content,title,deadline,filedelivered) VALUES(?,?,?,?,?,?,?)";
+            $stmt=$conn->prepare($sql);
+            $stmt->bind_param("iisssss",$_POST['idnv'],$truongphong,$st, $_POST['content'], $_POST['title'], $_POST['deadline'],$fileName);
+            $stmt->execute();
+            $_SESSION['response']="Thêm task thành công!";
+            $_SESSION['res_type']="success";
+            echo("<meta http-equiv='refresh' content='0'>");
+            
         }
     }
     ?>
@@ -164,7 +160,7 @@ $truongphong = $_SESSION['id'];
                     <form action="" method="POST" class="needs-validation" id="form-add-task" enctype="multipart/form-data" novalidate>
                         <div class="form-group">
                             <label for="">Nhân viên</label>
-                            <select class="selectpicker" data-live-search="true" style="height: auto;" id="selectnv" name="idnv" required>
+                            <select class="selectpicker form-control" data-live-search="true" style="height: auto;" id="selectnv" name="idnv" required>
                                 <option value="" selected disabled>--Chưa chọn nhân viên--</option>
                                 <?php
                                 $sql = "SELECT * FROM user WHERE idpb=" . $phongban . " AND id!=" . $truongphong . "";
@@ -204,7 +200,7 @@ $truongphong = $_SESSION['id'];
                         <div class="form-group">
                             <label for="">Tệp đính kèm</label>
                             <input type="file" class=" custom-file-input" id="filepost"
-                                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar"
+                                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx, .txt, .pdf, .zip, .rar"
                                     multiple hidden name="filedelivered[]" onchange="updateList()">
                             <label for="filepost" class="btn btn-primary btn-sm form-control">
                                 <i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i>

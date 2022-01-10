@@ -150,7 +150,7 @@
     <?php include 'header_nosearch.php' ?>
     <div class="container profile-container hscroll">
         <div class="row">
-            <img  src="images/bia.jpg" alt="" class="anhbia">
+            <img style="object-fit:cover;" src="images/anhbia.jpg" alt="" class="anhbia">
             <div class="avt-group m-auto">
                 <?php 
                     if ($uavatar==null){
@@ -332,7 +332,7 @@
 
                 $sql = "UPDATE user SET phone=?, birthday=?, cmnd=?, email = ?, address=?, gender = ? WHERE id=?";
                 $stmt=$conn->prepare($sql);
-                $stmt->bind_param("issssii",$sPhone,$sBirthday,$sIdentityCard,$sEmail,$sAddress,$sGender,$iduser);
+                $stmt->bind_param("sssssii",$sPhone,$sBirthday,$sIdentityCard,$sEmail,$sAddress,$sGender,$iduser);
                     
                 if ($stmt->execute() === TRUE) {
                     $_SESSION['response']="Cập nhật thông tin thành công!";
