@@ -20,8 +20,9 @@
     }
 
     //
+    $currentYear=date("Y");
     $numoff = 0;
-    $sql = "SELECT * FROM dayoff WHERE iduser=$iduser AND status!='refused'";
+    $sql = "SELECT * FROM dayoff WHERE iduser=$iduser AND status!='refused' AND YEAR(startday)=$currentYear";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -67,7 +68,6 @@
                         $last = $tmp['daterep'];
                 }
                 if (($result->num_rows == 0) && (strtotime(date("Y-m-d")) - strtotime($last)) / 86400 >= 7 && (($num - $numoff)>0)){
-
                 ?>
                     <div class="hadd-task" data-toggle="modal" data-target="#yeucau-modal">
                         <i class="fas fa-pencil-alt"></i><b class="ml-2">Tạo yêu cầu</b>
@@ -75,9 +75,18 @@
                 <?php
                 }
                 ?>
+                <?php
+                    if((strtotime(date("Y-m-d")) - strtotime($last)) / 86400 < 7){
+                        ?>
+                            <div class="ml-2 font-italic">(Yêu cầu vừa được duyệt <?= (strtotime(date("Y-m-d")) - strtotime($last)) / 86400 ?> ngày trước.)</div>
+                        <?php
+                    }
+                ?>
 
                 <hr />
                 <div>
+                    <b class="ml-2" style="color: #8D4E85;">Năm: <?=$currentYear?> </b>
+                    <hr>
                     <b class="ml-2" style="color: #8D4E85;">Số ngày nghỉ:</b> <?php echo $num; ?>
                     <br>
                     <b class="ml-2" style="color: #8D4E85;">Ngày đã nghỉ:</b> <?php echo $numoff; ?>
@@ -174,13 +183,12 @@
                 }
                 $fileName = implode(",", $newName);
             }
-            $sql = "INSERT INTO  dayoff (numday,startday,iduser,reson,status,file)
-            VALUES ('" . $_POST['numberdayoff'] . "','" . $_POST['startday'] . "','" . $iduser . "','" . $_POST['reson'] . "','waiting','" . $fileName . "')";
-            if ($conn->query($sql) === FALSE) {
-                echo "Error updating record: " . $conn->error;
-            } else {
-                echo ("<meta http-equiv='refresh' content='0'>");
-            }
+            $sql = "INSERT INTO  dayoff (numday,startday,iduser,reson,status,file) VALUES(?,?,?,?,?,?)";
+            $st='waiting';
+            $stmt=$conn->prepare($sql);
+            $stmt->bind_param("isisss",$_POST['numberdayoff'],$_POST['startday'],$iduser,$_POST['reson'],$st,$fileName);
+            $stmt->execute();
+            echo("<meta http-equiv='refresh' content='0.5'>");
         }
     }
     ?>

@@ -34,7 +34,7 @@
     <!-- header -->
     <?php include 'header_nosearch.php' ?>
 
-  <div class="container-fluid">
+  <div class="container-fluid hscroll">
   <div class="row justify-content-center">
       <div class="col-md-10">
         <h3 class="text-center text-dark mt-2 font-weight-bold">QUẢN LÝ PHÒNG BAN</h3>

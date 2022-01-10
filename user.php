@@ -38,7 +38,7 @@
     <!-- header -->
     <?php include 'header_nosearch.php' ?>
 
-  <div class="container-fluid">
+  <div class="container-fluid hscroll">
     <div class="row justify-content-center">
       <div class="col-md-10">
         <h3 class="text-center text-dark mt-2 font-weight-bold">QUẢN LÝ NHÂN VIÊN</h3>
@@ -129,14 +129,14 @@
         <table class="table table-hover" id="data-table">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Avatar</th>
+              <th>ID</th>
+              <th>Ảnh</th>
               <th>Họ tên</th>
-              <th>Username</th>
+              <th>Tên đăng nhập</th>
               <th>Số điện thoại</th>
               <th>Chức vụ</th>
               <th>Phòng Ban</th>
-              <th>Chức năng</th>
+              <th>Tác vụ</th>
             </tr>
           </thead>
           <tbody>
