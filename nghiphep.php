@@ -183,10 +183,11 @@
                 }
                 $fileName = implode(",", $newName);
             }
-            $sql = "INSERT INTO  dayoff (numday,startday,iduser,reson,status,file) VALUES(?,?,?,?,?,?)";
+            $currentDate = date('Y-m-d');
+            $sql = "INSERT INTO  dayoff (numday,startday,iduser,reson,status,file,date) VALUES(?,?,?,?,?,?,?)";
             $st='waiting';
             $stmt=$conn->prepare($sql);
-            $stmt->bind_param("isisss",$_POST['numberdayoff'],$_POST['startday'],$iduser,$_POST['reson'],$st,$fileName);
+            $stmt->bind_param("isissss",$_POST['numberdayoff'],$_POST['startday'],$iduser,$_POST['reson'],$st,$fileName,$currentDate);
             $stmt->execute();
             echo("<meta http-equiv='refresh' content='0.5'>");
         }

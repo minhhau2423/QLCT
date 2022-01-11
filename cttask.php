@@ -242,8 +242,9 @@ $idtask = $_GET['id'];
                 }
                 $fileName = implode(",", $newName);
             }
-            $sql = "INSERT INTO  history (idtask,idnv,idtp,content,title,file,idSent) 
-            VALUES ('" . $idtask . "','" . $idnv . "','" . $truongphong . "','" . $_POST['content'] . "','" . $_POST['title'] . "','" . $fileName . "','" . $truongphong . "')";
+            $currentDate = date('Y-m-d');
+            $sql = "INSERT INTO  history (idtask,idnv,idtp,content,title,file,idSent,date) 
+            VALUES ('" . $idtask . "','" . $idnv . "','" . $truongphong . "','" . $_POST['content'] . "','" . $_POST['title'] . "','" . $fileName . "','" . $truongphong . "','".$currentDate."')";
             if ($conn->query($sql) === FALSE) {
                 echo "Error updating record: " . $conn->error;
             } else {
