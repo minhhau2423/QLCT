@@ -134,6 +134,7 @@ $(document).ready(function () {
     })
 
     //
+   
 
 });
 
@@ -182,13 +183,20 @@ function showPassword2() {
 
 //list file
 function updateList() {
+    var size=0;
     var input = document.getElementById('filepost');
     var output = document.getElementById('fileList');
     var children = "";
     for (var i = 0; i < input.files.length; ++i) {
+        size += input.files.item(i).size;
         children += '<li>' + input.files.item(i).name + '</li>';
     }
-    output.innerHTML = '<ul>'+children+'</ul>';
+    if(size>209715200){/*200MB */
+        output.innerHTML = 'tổng file vượt quá giới hạn';
+        input.value="";
+    }else{
+        output.innerHTML = '<ul>'+children+'</ul>';
+    }
 }
 
 //download file
@@ -219,4 +227,5 @@ $(document).ready(function(){
 
 // To style only selects with the my-select class
 $('.my-select').selectpicker();
+
 
