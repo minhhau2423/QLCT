@@ -276,7 +276,7 @@ $idtask = $_GET['id'];
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="">Thêm đính kèm</label>
+                            <label for="">Thêm đính kèm (&lt;200MB)</label>
                             <input type="file" class=" custom-file-input" id="filepost" 
                                 accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar"
                                 multiple hidden name="file[]" onchange="updateList()">

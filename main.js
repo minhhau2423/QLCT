@@ -192,7 +192,7 @@ function updateList() {
         children += '<li>' + input.files.item(i).name + '</li>';
     }
     if(size>209715200){/*200MB */
-        output.innerHTML = 'tổng file vượt quá giới hạn';
+        output.innerHTML = 'Tổng file vượt quá giới hạn';
         input.value="";
     }else{
         output.innerHTML = '<ul>'+children+'</ul>';

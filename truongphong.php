@@ -198,7 +198,7 @@ $truongphong = $_SESSION['id'];
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="">Tệp đính kèm</label>
+                            <label for="">Tệp đính kèm (&lt;200MB)</label>
                             <input type="file" class=" custom-file-input" id="filepost"
                                     accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx, .txt, .pdf, .zip, .rar"
                                     multiple hidden name="filedelivered[]" onchange="updateList()">
